@@ -1,0 +1,107 @@
+{% extends 'doc/base.html' %}
+
+{% block title %}{{ collection.title }} - Documentation{% endblock %}
+
+
+{% block content %}
+
+<div class="bg-gradient" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="container py-5 text-white">
+        <h4 class="fw-bold text-dark">{{ collection.title }}</h4>
+        <p class="lead text-dark">{{ collection.description }}</p>
+    </div>
+</div>
+
+<div class="container ">
+    <div class="row">
+        <div class="col-lg-8">
+            <h3 class="mb-4">Course Topics</h3>
+            {% for topic in topics %}
+            <div class="card mb-3 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="text-white rounded d-flex align-items-center justify-content-center me-3"
+                            style="background-color: var(--primary-color); width: 40px; height: 40px;">
+                            <strong>{{ forloop.counter }}</strong>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5 class="mb-1">{{ topic.title }}</h5>
+                            <small class="text-muted">Updated: {{ topic.updated_at|date:"M d, Y" }}</small>
+                        </div>
+                        <a href="{% url 'topic_detail' topic.id %}" class="btn btn-outline-dark btn-sm">
+                            Read
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="alert alert-warning">No topics available yet in this course.</div>
+            {% endfor %}
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm sticky-top" style="top: 80px;">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold mb-3">Course Info</h5>
+
+                    <ul class="list-unstyled small mb-3 d-flex justify-content-between">
+                        <li class="d-flex align-items-center mb-3">
+
+
+                            <span
+                                class="d-inline-flex align-items-center justify-content-center rounded-circle text-white me-3"
+                                style="background-color: var(--primary-color); width:36px; height:36px;">📚</span>
+                            <div>
+                                <div class="fw-semibold">Topics</div>
+                                <div class="text-muted">{{ topics.count }} total</div>
+                            </div>
+                        </li>
+
+                        <div>
+                            <li class="d-flex align-items-center mb-3">
+                                <span
+                                    class="d-inline-flex align-items-center justify-content-center rounded-circle text-white me-3"
+                                    style="background-color:#6c757d; width:36px; height:36px;">🗓️</span>
+                                <div>
+                                    <div class="fw-semibold">Created</div>
+                                    <div class="text-muted">{{ collection.created_at|date:"M d, Y" }}</div>
+                                </div>
+                            </li>
+
+                            <li class="d-flex align-items-center mb-3">
+                                <span
+                                    class="d-inline-flex align-items-center justify-content-center rounded-circle text-white me-3"
+                                    style="background-color:#17a2b8; width:36px; height:36px;">⏱️</span>
+                                <div>
+                                    <div class="fw-semibold">Last Updated</div>
+                                    <div class="text-muted">{{ collection.updated_at|date:"M d, Y" }}</div>
+                                </div>
+                            </li>
+                        </div>
+
+                    </ul>
+
+                    {% if topics %}
+                    <a href="{% url 'topic_detail' topics.0.id %}" class="btn btn-sm w-100 mb-2"
+                        style="background-color: var(--primary-color);">Start
+                        Course</a>
+                    {% else %}
+                    <button class="btn btn-primary btn-sm w-100 mb-2" disabled>Start Course</button>
+                    {% endif %}
+                    <a href="#" class="btn btn-outline-secondary btn-sm w-100">Save / Bookmark</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<style>
+    footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+</style>
+{% endblock %}

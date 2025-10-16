@@ -1,0 +1,152 @@
+{% extends 'doc/base.html' %}
+
+{% block title %}{{ topic.title }} - {{ collection.title }}{% endblock %}
+{% block extra_head %}
+<!-- highlight.js CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai-sublime.min.css">
+<style>
+/* Copy button styling */
+.code-wrapper {
+    position: relative;
+    border-radius: 8px;
+    padding: 0px;
+}
+
+.code-wrapper pre {
+    margin: 0;
+
+    border-radius: 4px 6px 4px 6px;
+    padding: 0px;
+    margin-bottom: 25px;
+    background-color: #151b23;
+
+}
+
+pre code{
+    padding: 8px !important;
+}
+
+.code-wrapper button.copy-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    z-index: 10;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar Navigation -->
+        <nav class="col-md-4 col-lg-3 d-md-block bg-light sidebar border" style="position: fixed; height: auto; padding: 20px">
+            <div class="">
+                <div class="">
+                    <a href="" class="text-decoration-none">
+                        <h6 class="text-muted text-uppercase fw-bold">{{ playlist.title }}</h6>
+                    </a>
+                </div>
+                <ul class="nav flex-column">
+                    {% for t in all_topics %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if t.slug == topic.slug %}active bg-secondary text-white{% else %}text-dark{% endif %} rounded mx-2" 
+                           href="{% url 'topic_detail' t.id %}">
+                            <small>{{ forloop.counter }}. {{ t.title }}</small>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col-md-8 ms-sm-auto col-lg-9 px-md-4">
+            <div class="py-4">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="">Courses</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'collection_detail' collection.slug %}">{{ collection.title }}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ topic.title }}</li>
+                    </ol>
+                </nav>
+
+                <div class="d-flex justify-content-between align-items-center mb-3 border-bottom ">
+                <div class="pb-3 ">
+                    <h4 class="fw-bold">{{ topic.title }}</h4>
+                    <p class="text-muted">Last updated: {{ topic.documentation.updated_at|date:"F d, Y" }}</p>
+                </div>
+
+                <div class="author-details">
+                    <div class=" mb-4">
+                        <img src="https://www.themarysue.com/wp-content/uploads/2020/11/One-Piece.jpg?w=1200"
+                             alt="Author"
+                             class="me-2 rounded border"
+                             style="height: 45px; width: 45px; object-fit: cover; object-position: center;">
+                        <div>
+                            <h6 class="mb-0">By Faysal Hassan Torjo</h6>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <!-- Topic Title -->
+                
+
+                <!-- Theory Section -->
+                
+
+                <!-- Main Content -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body p-4">
+                        <div class="documentation-content">
+                            {{ topic.documentation.content|safe }}
+                        </div>
+                    </div>
+                </div>
+
+
+               
+           
+
+                
+            </div>
+        </main>
+    </div>
+</div>
+
+
+<!-- highlight.js JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Find all <pre><code> blocks
+    document.querySelectorAll('pre code').forEach((block) => {
+        // Wrap <pre> in a relative div
+        const pre = block.parentNode;
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('code-wrapper');
+        pre.parentNode.insertBefore(wrapper, pre);
+        wrapper.appendChild(pre);
+
+        // Create copy button
+        const btn = document.createElement('button');
+        btn.innerText = 'Copy';
+        btn.classList.add('copy-btn', 'btn', 'btn-sm', 'btn-outline-secondary');
+        wrapper.appendChild(btn);
+
+        // Copy event
+        btn.addEventListener('click', () => {
+            navigator.clipboard.writeText(block.innerText).then(() => {
+                btn.innerText = 'Copied!';
+                setTimeout(() => btn.innerText = 'Copy', 1000);
+            }).catch(() => alert('Copy failed'));
+        });
+    });
+});
+</script>
+{% endblock %}

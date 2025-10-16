@@ -1,0 +1,131 @@
+{% extends 'doc/base.html' %}
+{% block title %}TorjoDocs - Learn, Share, Document{% endblock %}
+
+{% block extra_head %}
+<style>
+    .hero-section {
+       
+        padding: 100px 0;
+        border-radius: 0 0 1rem 1rem;
+    }
+
+    .hero-text h1 {
+        font-weight: 700;
+        font-size: 3rem;
+    }
+
+    .hero-text p {
+        opacity: 0.9;
+        font-size: 1.25rem;
+    }
+
+    .upload-btn {
+        background: #e67e22;
+        color: #ffff;
+        font-weight: 600;
+        border-radius: 10px;
+        padding: 10px 24px;
+        transition: all 0.3s ease;
+    }
+
+    .project-btn {
+        background: rgb(0, 0, 0);
+        color: #ffffff;
+        font-weight: 600;
+        border-radius: 10px;
+        padding: 10px 24px;
+        transition: all 0.3s ease;
+    }
+
+
+
+    .upload-btn:hover {
+        background: #e67d22a3;
+        color: #fff;
+    }
+
+    .collection-card {
+        transition: all 0.25s ease;
+        border-radius: 12px;
+    }
+
+    .collection-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .hero-image img {
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .footer {
+        background-color: #f8f9fa;
+        padding: 30px 0;
+        margin-top: 60px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{% load static %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center text-center text-md-start">
+                   <div class="col-md-6 text-center mt-4 mt-md-0 hero-image">
+                <img src="{% static 'doc/images/dp.png' %}"
+                     alt="Learning Illustration" class="img-fluid" style="max-height: 500px;">
+            </div>
+            <div class="col-md-6 hero-text">
+                <h1>Faysal Hassan Torjo</h1>
+                <p class="lead mb-4">My personal documentation space — everything I learn, I document.</p>
+                <a href="#collection-list" class="upload-btn btn mt-1 mb-2">Explore My Documents</a>
+                <a href="" class="project-btn btn mt-1 mb-2">Explore My Projects</a>
+            </div>
+     
+        </div>
+    </div>
+</section>
+
+<!-- Collections Section -->
+<div id="collection-list" class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold text-dark mb-0">Featured Collections</h3>
+        <!-- <a href="" class="text-primary fw-semibold text-decoration-none">
+            + Add New
+        </a> -->
+    </div>
+
+    <div class="row">
+        {% for collection in collections %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card collection-card h-100"
+            style="background-image: url({{collection.imageURL}}); background-size: cover;background-position: center ; background-repeat: no-repeat; overflow: hidden; padding: 0;"
+            >
+                <div class="card-body" style=" backdrop-filter: blur(5px); overflow: hidden;">
+                    <h5 class="card-title text-light fw-bold">{{ collection.title }}</h5>
+                    <p class="text-light mb-3">{{ collection.description|truncatewords:20 }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small class="text-light">{{ collection.topics.count }} topics</small>
+                        <a href="{% url 'collection_detail' collection.slug %}" class="btn btn-outline-light btn-sm">
+                            View
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info text-center py-5">
+                <h4>No documentation yet</h4>
+                <p class="mb-0">Be the first to upload your learning notes!</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+{% endblock %}
