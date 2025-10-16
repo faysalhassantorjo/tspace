@@ -1,0 +1,20 @@
+# render.yaml - Minimal Render Blueprint for Django + SQLite
+services:
+  - type: web
+    name: torjospace
+    env: python
+    region: oregon
+    plan: free
+    branch: main
+    autoDeploy: true
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn project.wsgi:application --workers 3 --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: project.settings
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com,localhost"
