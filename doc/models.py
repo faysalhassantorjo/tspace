@@ -47,6 +47,9 @@ class Topic(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
+        
+        self.collection.updated_at = models.DateTimeField(auto_now=True)
+        self.collection.save()
         super().save(*args, **kwargs)
     
     def __str__(self):

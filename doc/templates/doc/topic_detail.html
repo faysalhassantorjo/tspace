@@ -42,13 +42,23 @@ pre code{
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar Navigation -->
-        <nav class="col-md-4 col-lg-3 d-md-block bg-light sidebar border" style="position: fixed; height: auto; padding: 20px">
+        <nav class="col-md-4 col-lg-3 col-0 d-md-block sidebar " id="sidebar" 
+        style="position: fixed; height: auto; padding: 20px; z-index: 999;
+        background: rgba(255, 255, 255, 0.15);
+         backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+        ">
             <div class="">
                 <div class="">
                     <a href="" class="text-decoration-none">
-                        <h6 class="text-muted text-uppercase fw-bold">{{ playlist.title }}</h6>
+                        <h6 class="text-muted text-uppercase fw-bold">{{ collection.title }}</h6>
                     </a>
                 </div>
+                <style>
+                    .bg-secondary{
+                        background-color: var(--primary-color) !important;
+                    }
+                </style>
                 <ul class="nav flex-column">
                     {% for t in all_topics %}
                     <li class="nav-item">
@@ -62,8 +72,46 @@ pre code{
             </div>
         </nav>
 
+        <span class="floating_menu">
+            <i class="fas fa-bars"></i>
+        </span>
+        <style>
+        .floating_menu {
+            position: fixed;
+            bottom: 0;
+            left: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 1000;
+            width: auto;
+            display: none; 
+        }
+        @media (max-width: 768px) {
+            .floating_menu {
+                display: block;
+            }
+            #sidebar {
+                display: none;
+            }
+        }
+        </style>
+
+        <script>
+        document.querySelector('.floating_menu').addEventListener('click', function() {
+            const sidebar = document.querySelector('#sidebar');
+            if (sidebar.style.display === 'block') {
+                sidebar.style.display = 'none';
+            } else {
+                sidebar.style.display = 'block';
+            }
+            
+        });
+        </script>
         <!-- Main Content -->
-        <main class="col-md-8 ms-sm-auto col-lg-9 px-md-4">
+        <main class="col-md-8 ms-sm-auto col-12 col-lg-9 px-md-4">
             <div class="py-4">
                 <!-- Breadcrumb -->
                 <nav aria-label="breadcrumb">
@@ -99,7 +147,7 @@ pre code{
                 
 
                 <!-- Main Content -->
-                <div class="card border-0 shadow-sm mb-4">
+                <div class=" border-0 mb-4">
                     <div class="card-body p-4">
                         <div class="documentation-content">
                             {{ topic.documentation.content|safe }}

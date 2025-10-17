@@ -170,39 +170,9 @@
     }
 
     /* 🔗 Project Links */
-    .project-links {
-        max-width: 1000px;
-        margin: 4rem auto 6rem;
-        text-align: center;
-    }
 
-    .project-links a {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.6rem;
-        background: var(--primary);
-        color: white;
-        text-decoration: none;
-        padding: 0.85rem 1.6rem;
-        border-radius: var(--radius);
-        font-weight: 600;
-        margin: 0.6rem;
-        transition: all 0.3s ease;
-    }
 
-    .project-links a.github {
-        background: #111827;
-    }
 
-    .project-links a.video {
-        background: #ef4444;
-    }
-
-    .project-links a:hover {
-        transform: translateY(-4px);
-        opacity: 0.92;
-    }
 
     /* ✨ Animations */
     @keyframes fadeIn {
@@ -322,7 +292,7 @@
 <div class="project-thumbnail">
     <img src="{{ project.thumbnail.url }}" alt="{{ project.title }}">
     <div class="overlay">
-        <h1 class="project_title" style="color: #fff;">{{ project.title }}</h1>
+        <h1 class="project_title fw-bold" style="color: #fff;">{{ project.title }}</h1>
     </div>
 </div>
 
@@ -481,8 +451,74 @@
 </section>
 {% endif %}
 
-<!-- 🔗 Links -->
-<section class="project-links">
+<!-- floating Links -->
+
+<style>
+    .project-links {
+        position: fixed;
+        left: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 2000;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0.8rem;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 12px;
+    }
+
+    .project-links a {
+        align-items: center;
+        justify-content: center;
+        background: var(--primary);
+        color: white;
+        text-decoration: none;
+        padding: 8px;
+        font-weight: 600;
+        margin: 0.6rem;
+        transition: all 0.3s ease;
+        border-radius: 12px;
+
+    }
+
+    .project-links a.github {
+        background: #111827;
+    }
+
+    .project-links a.video {
+        background: #ef4444;
+    }
+
+    .project-links a:hover {
+        transform: translateY(-4px);
+        opacity: 0.92;
+    }
+
+    /* move to bottom and row layout on small screens */
+    @media (max-width: 640px) {
+        .floating-mid {
+            top: auto;
+            bottom: 18px;
+            left: 50%;
+            right: auto;
+            transform: translateX(-50%);
+            flex-direction: row;
+            padding: 0.5rem;
+            font-size: 12px !important;
+            width: 80%;
+            justify-content: space-between;
+        }
+
+        .floating-mid a {
+            padding: 0.5rem 0.9rem;
+        }
+    }
+</style>
+
+<section class="project-links floating-mid">
     {% if project.live_url %}
     <a href="{{ project.live_url }}" target="_blank">
         <i class="fas fa-external-link-alt"></i> Live Demo
