@@ -1,0 +1,503 @@
+{% extends 'doc/base.html' %}
+
+{% block title %}{{ project.title }} - Projects{% endblock %}
+
+{% block content %}
+<style>
+    /* 🌈 Modern Polished Portfolio Styling */
+    :root {
+        --primary: #e67e22;
+        --primary-dark: #7b3f0c;
+        --secondary: #f9fafb;
+        --text: #1e293b;
+        --muted: #64748b;
+        --accent: #06d6a0;
+        --radius: 16px;
+        --shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Base Setup */
+    body {
+        background: var(--secondary);
+        color: var(--text);
+        scroll-behavior: smooth;
+    }
+
+
+
+    /* 🖼️ Project Thumbnail */
+    .project-thumbnail {
+        max-width: 1050px;
+        margin: auto;
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transform: translateY(20px);
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .project-thumbnail:hover {
+        transform: translateY(10px);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+    }
+
+    .project-thumbnail img {
+        width: 100%;
+        height: 450px;
+        object-fit: cover;
+        border-radius: var(--radius);
+    }
+
+    /* ⚙️ Meta Info */
+    .project-meta {
+        max-width: 1000px;
+        margin: 2.5rem auto;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        color: var(--muted);
+        font-size: 0.96rem;
+        border-bottom: 1px solid #e5e7eb;
+        padding-bottom: 1rem;
+        opacity: 0.95;
+    }
+
+    .project-meta div {
+        margin: 0.3rem 0;
+    }
+
+    /* 🧠 Tech Stack Section */
+    .tech-section {
+        max-width: 1000px;
+        margin: 3.5rem auto;
+        text-align: center;
+    }
+
+    .tech-section h3 {
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 2rem;
+        position: relative;
+    }
+
+    .description h3 {
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 1.5rem;
+    }
+
+    .tech-section h3::after {
+        content: "";
+        position: absolute;
+        width: 70px;
+        height: 3px;
+        background: var(--primary);
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+    }
+
+    .tech-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .tech-item {
+        background: white;
+        padding: 1rem 1.3rem;
+        width: 130px;
+        transition: all 0.3s ease;
+        border: 1px solid #e5e7eb;
+    }
+
+    .tech-item:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 8px 20px rgba(99, 102, 241, 0.15);
+    }
+
+    .tech-item img {
+        width: 42px;
+        height: 42px;
+        margin-bottom: 0.6rem;
+    }
+
+    /* 📝 Description */
+
+
+
+
+    /* 🖼️ Gallery */
+    .project-gallery {
+        max-width: 1000px;
+        margin: 4rem auto;
+        text-align: center;
+    }
+
+    .project-gallery h3 {
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 1.5rem;
+    }
+
+    .carousel img {
+        height: 440px;
+        object-fit: cover;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+    }
+
+    /* 🎥 Video */
+    .video-section {
+        max-width: 1000px;
+        margin: 4rem auto;
+        text-align: center;
+    }
+
+    .video-section h3 {
+        color: var(--text);
+        margin-bottom: 1.5rem;
+        font-weight: 700;
+    }
+
+    .video-section iframe {
+        width: 100%;
+        height: 480px;
+        border: none;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+    }
+
+    /* 🔗 Project Links */
+    .project-links {
+        max-width: 1000px;
+        margin: 4rem auto 6rem;
+        text-align: center;
+    }
+
+    .project-links a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        background: var(--primary);
+        color: white;
+        text-decoration: none;
+        padding: 0.85rem 1.6rem;
+        border-radius: var(--radius);
+        font-weight: 600;
+        margin: 0.6rem;
+        transition: all 0.3s ease;
+    }
+
+    .project-links a.github {
+        background: #111827;
+    }
+
+    .project-links a.video {
+        background: #ef4444;
+    }
+
+    .project-links a:hover {
+        transform: translateY(-4px);
+        opacity: 0.92;
+    }
+
+    /* ✨ Animations */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* 📱 Responsive Design */
+    @media (max-width: 768px) {
+        .hero {
+            padding: 3.5rem 1rem;
+            border-bottom-left-radius: 50px;
+            border-bottom-right-radius: 50px;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+        }
+
+        .project-thumbnail img,
+        .carousel img,
+        .video-section iframe {
+            height: 250px;
+        }
+
+        .project-description {
+            padding: 1.5rem;
+        }
+
+        .tech-item {
+            width: 100px;
+            padding: 0.8rem;
+        }
+    }
+</style>
+<!-- 🌟 Hero -->
+<section class="hero">
+</section>
+
+<!-- 🖼️ Thumbnail -->
+
+<style>
+    .project-thumbnail {
+        position: relative;
+        width: 100%;
+        height: 420px;
+        overflow: hidden;
+        border-radius: 16px;
+    }
+
+    .project-thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .project-thumbnail:hover img {
+        transform: scale(1.05);
+    }
+
+    /* Overlay for blur effect */
+    .project-thumbnail .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.3);
+        /* semi-transparent dark layer */
+        backdrop-filter: blur(6px);
+        /* blur the image behind */
+        -webkit-backdrop-filter: blur(6px);
+    }
+
+    .project-title {
+        color: var(--primary) !important;
+        font-size: 2.8rem;
+        font-weight: 800;
+        text-align: center;
+        padding: 0 1rem;
+        text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    @media (max-width: 768px) {
+        .project-thumbnail {
+            height: 250px;
+        }
+
+        .project-title {
+            font-size: 1.8rem;
+        }
+    }
+</style>
+<div class="project-thumbnail">
+    <img src="{{ project.thumbnail.url }}" alt="{{ project.title }}">
+    <div class="overlay">
+        <h1 class="project_title" style="color: #fff;">{{ project.title }}</h1>
+    </div>
+</div>
+
+
+<!-- ⚙️ Meta Info -->
+<div class="project-meta">
+    <div><strong>Created:</strong> {{ project.created_at|date:"F d, Y" }}</div>
+    <div><strong>Updated:</strong> {{ project.updated_at|date:"F d, Y" }}</div>
+    {% if project.is_featured %}
+    <div><span style="color:#f59e0b;">🌟 Featured Project</span></div>
+    {% endif %}
+</div>
+
+<!-- 🧠 Technologies -->
+{% if project.technology.exists %}
+<section class="tech-section">
+    <h3>Technologies Used</h3>
+    <div class="tech-grid">
+        {% for tech in project.technology.all %}
+        <div class="tech-item">
+            <img src="https://cdn.simpleicons.org/{{ tech.icon }}" alt="{{ tech.name }}">
+            <div>{{ tech.name }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<!-- 📝 Description -->
+
+<section class="container description">
+    <h3 class="text-center">Description</h3>
+    <div>
+        {{ project.description|safe }}
+    </div>
+</section>
+<!-- 🖼️ Gallery -->
+{% if project.images.exists %}
+<section class="project-gallery">
+    <h3>Screenshots</h3>
+    <div id="projectCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <style>
+                /* Carousel Captions */
+                .carousel-caption {
+                    position: absolute;
+                    bottom: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: rgba(0, 0, 0, 0.55);
+                    backdrop-filter: blur(5px);
+                    padding: 0.5rem 1rem;
+                    border-radius: 10px;
+                    color: #fff;
+                    font-size: 1.2rem;
+                    width: 60%;
+                    text-align: center;
+                    line-height: 1.4;
+                    transition: all 0.3s ease;
+                }
+
+                .carousel-caption p {
+                    margin: 0;
+                }
+
+                /* Optional: fade in captions */
+                .carousel-item .carousel-caption {
+                    opacity: 0;
+                    transform: translateY(15px) translateX(-50%);
+                    transition: opacity 0.5s ease, transform 0.5s ease;
+                }
+
+                .carousel-item.active .carousel-caption {
+                    opacity: 1;
+                    transform: translateY(0) translateX(-50%);
+                }
+            </style>
+            {% for image in project.images.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <img src="{{ image.image.url }}" class="d-block w-100 project-image" alt="{{ image.caption }}">
+                {% if image.caption %}
+                <div class="carousel-caption">
+                    <p style="color: var(--primary);">{{ image.caption }}</p>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <style>
+                .display_image {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.8);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 1050;
+                }
+
+                .display_image img {
+                    max-width: 90%;
+                    max-height: 90%;
+                    border-radius: 12px;
+                    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+                    cursor: zoom-out;
+                }
+            </style>
+
+
+            <script>
+                // JavaScript to handle image click and display in larger view
+                document.addEventListener('DOMContentLoaded', function () {
+                    const images = document.querySelectorAll('.project-image');
+                    const displayImageContainer = document.querySelector('.display_image');
+                    const displayImage = displayImageContainer.querySelector('img');
+
+                    images.forEach(img => {
+                        img.addEventListener('click', function () {
+                            displayImage.src = this.src;
+                            displayImageContainer.classList.remove('d-none');
+
+                        });
+                    });
+
+                    displayImageContainer.addEventListener('click', function () {
+                        this.classList.add('d-none');
+                    });
+                });
+            </script>
+
+
+        </div>
+
+        {% if project.images.count > 1 %}
+        <button class="carousel-control-prev" type="button" data-bs-target="#projectCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#projectCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+        {% endif %}
+    </div>
+    <div class="display_image d-none">
+        <img src="" alt="">
+    </div>
+</section>
+{% endif %}
+
+<!-- 🎥 Video -->
+{% if project.demo_video_url %}
+<section class="video-section">
+    <h3>Project Demo</h3>
+    <iframe src="{{ project.demo_video_url }}" allowfullscreen></iframe>
+</section>
+{% endif %}
+
+<!-- 🔗 Links -->
+<section class="project-links">
+    {% if project.live_url %}
+    <a href="{{ project.live_url }}" target="_blank">
+        <i class="fas fa-external-link-alt"></i> Live Demo
+    </a>
+    {% endif %}
+    {% if project.github_url %}
+    <a href="{{ project.github_url }}" target="_blank" class="github">
+        <i class="fab fa-github"></i> GitHub
+    </a>
+    {% endif %}
+    {% if project.demo_video_url %}
+    <a href="{{ project.demo_video_url }}" target="_blank" class="video">
+        <i class="fab fa-youtube"></i> Watch Video
+    </a>
+    {% endif %}
+</section>
+
+{% endblock %}

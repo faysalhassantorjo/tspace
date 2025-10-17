@@ -60,3 +60,50 @@ class Documentation(models.Model):
     
     def __str__(self):
         return f"Documentation for {self.topic.title}"
+
+class Project(models.Model):
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True, blank=True)
+    short_description = models.CharField(max_length=300, null=True, blank=True)
+    description =RichTextUploadingField(help_text="Detailed project description.")
+    thumbnail = models.ImageField(upload_to='project_thumbnails/', help_text="Main project image")
+    live_url = models.URLField(blank=True, help_text="Live demo link")
+    github_url = models.URLField(blank=True, help_text="GitHub repository link")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    order = models.PositiveIntegerField(default=0, help_text="Display order")
+    technology = models.ManyToManyField('Technology', blank=True, related_name='projects')
+    
+    class Meta:
+        ordering = ['order', '-created_at']
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+    
+    def __str__(self):
+        return self.title
+
+class Technology(models.Model):
+    name = models.CharField(max_length=100)
+    icon = models.CharField(max_length=50, blank=True, help_text="CSS class or emoji", null=True)
+
+    class Meta:
+        verbose_name_plural = "Technologies"
+        ordering = ['name']
+    
+    def __str__(self):
+        return self.name
+
+class ProjectImage(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='project_images/')
+    caption = models.CharField(max_length=200, blank=True)
+    order = models.PositiveIntegerField(default=0)
+    
+    class Meta:
+        ordering = ['order']
+    
+    def __str__(self):
+        return f"Image for {self.project.title}"

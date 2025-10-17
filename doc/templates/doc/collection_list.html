@@ -4,7 +4,7 @@
 {% block extra_head %}
 <style>
     .hero-section {
-       
+
         padding: 100px 0;
         border-radius: 0 0 1rem 1rem;
     }
@@ -73,17 +73,17 @@
 <section class="hero-section">
     <div class="container">
         <div class="row align-items-center text-center text-md-start">
-                   <div class="col-md-6 text-center mt-4 mt-md-0 hero-image">
-                <img src="{% static 'doc/images/dp.png' %}"
-                     alt="Learning Illustration" class="img-fluid" style="max-height: 500px;">
+            <div class="col-md-6 text-center mt-4 mt-md-0 hero-image">
+                <img src="{% static 'doc/images/dp.png' %}" alt="Learning Illustration" class="img-fluid"
+                    style="max-height: 500px;">
             </div>
             <div class="col-md-6 hero-text">
                 <h1>Faysal Hassan Torjo</h1>
                 <p class="lead mb-4">My personal documentation space — everything I learn, I document.</p>
                 <a href="#collection-list" class="upload-btn btn mt-1 mb-2">Explore My Documents</a>
-                <a href="" class="project-btn btn mt-1 mb-2">Explore My Projects</a>
+                <a href="#project-list" class="project-btn btn mt-1 mb-2">Explore My Projects</a>
             </div>
-     
+
         </div>
     </div>
 </section>
@@ -101,8 +101,7 @@
         {% for collection in collections %}
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="card collection-card h-100"
-            style="background-image: url({{collection.imageURL}}); background-size: cover;background-position: center ; background-repeat: no-repeat; overflow: hidden; padding: 0;"
-            >
+                style="background-image: url({{collection.imageURL}}); background-size: cover;background-position: center ; background-repeat: no-repeat; overflow: hidden; padding: 0;">
                 <div class="card-body" style=" backdrop-filter: blur(5px); overflow: hidden;">
                     <h5 class="card-title text-light fw-bold">{{ collection.title }}</h5>
                     <p class="text-light mb-3">{{ collection.description|truncatewords:20 }}</p>
@@ -126,6 +125,86 @@
     </div>
 </div>
 
+
+
+<div class="container my-5" id="project-list">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold text-dark mb-0">Projects</h3>
+        <!-- <a href="" class="text-primary fw-semibold text-decoration-none">
+            + Add New
+        </a> -->
+    </div>
+    <div class="row">
+        <style>
+            .project-card {
+                position: relative;
+                height: 250px;
+                border-radius: 1rem;
+                overflow: hidden;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+
+            .project-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            }
+
+            .card-img-wrapper {
+                position: relative;
+                width: 100%;
+                height: 100%;
+            }
+
+            .card-img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.4s ease;
+            }
+
+            .project-card:hover .card-img {
+                transform: scale(1.05);
+            }
+
+            .card-overlay {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+            }
+
+            .card-title,
+            .card-text {
+                margin: 0;
+            }
+        </style>
+        {% for project in projects %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="project-card card border-0 shadow-sm overflow-hidden ">
+                <div class="card-img-wrapper">
+                    <img src="{{ project.thumbnail.url }}" alt="{{ project.title }}" class="card-img">
+                    <div class="card-overlay d-flex flex-column justify-content-end p-3">
+                        <h5 class="card-title text-white fw-bold mb-1">{{ project.title }}</h5>
+                        <p class="card-text text-light small mb-3">{{ project.short_description }}</p>
+                        <a href="{% url 'project_detail' project.slug %}" class="btn btn-light btn-sm w-100">
+                            <i class="fas fa-info-circle"></i> Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                <h4>No projects available yet</h4>
+                <p class="mb-0">Check back soon for new projects!</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 
 
 {% endblock %}
