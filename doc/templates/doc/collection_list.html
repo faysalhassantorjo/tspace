@@ -78,10 +78,15 @@
                     style="max-height: 500px;">
             </div>
             <div class="col-md-6 hero-text">
-                <h1>Faysal Hassan Torjo</h1>
-                <p class="lead mb-4">My personal documentation space — everything I learn, I document.</p>
-                <a href="#collection-list" class="upload-btn btn mt-1 mb-2">Explore My Documents</a>
-                <a href="#project-list" class="project-btn btn mt-1 mb-2">Explore My Projects</a>
+                <header role="banner"></header>
+                    <h1 class="h1 fw-bold mb-2">{{ author_name|default:"Faysal Hassan Torjo" }}</h1>
+                    <p class="lead mb-4">{{ hero_subtitle|default:"My personal documentation space — everything I learn, I document." }}</p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="#collection-list" class="upload-btn btn" role="button" aria-label="Explore documents">Explore Documents</a>
+                        <a href="#project-list" class="upload-btn btn" role="button" aria-label="Explore projects">Explore Projects</a>
+                        <a href="https://docs.google.com/document/d/13Kw-IVmG9K1GL2rYFSaoDpfLYZiXT6uvFbILa4drZ1E/edit?usp=sharing" class="project-btn btn" target="_blank">My CV</a>
+                    </div>
+                </header>
             </div>
 
         </div>
