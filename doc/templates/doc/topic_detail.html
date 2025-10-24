@@ -5,36 +5,35 @@
 <!-- highlight.js CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai-sublime.min.css">
 <style>
-/* Copy button styling */
-.code-wrapper {
-    position: relative;
-    border-radius: 8px;
-    padding: 0px;
-}
+    /* Copy button styling */
+    .code-wrapper {
+        position: relative;
+        border-radius: 8px;
+        padding: 0px;
+    }
 
-.code-wrapper pre {
-    margin: 0;
+    .code-wrapper pre {
+        margin: 0;
 
-    border-radius: 4px 6px 4px 6px;
-    padding: 0px;
-    margin-bottom: 25px;
-    background-color: #151b23;
+        border-radius: 4px 6px 4px 6px;
+        padding: 0px;
+        margin-bottom: 25px;
+        background-color: #151b23;
 
-}
+    }
 
-pre code{
-    padding: 8px !important;
-}
+    pre code {
+        padding: 8px !important;
+    }
 
-.code-wrapper button.copy-btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    padding: 0.25rem 0.5rem;
-    font-size: 0.75rem;
-    z-index: 10;
-}
-
+    .code-wrapper button.copy-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+        z-index: 10;
+    }
 </style>
 {% endblock %}
 
@@ -42,8 +41,7 @@ pre code{
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar Navigation -->
-        <nav class="col-md-4 col-lg-2 col-0 d-md-block sidebar " id="sidebar" 
-        style="position: fixed; height: auto; padding: 20px; z-index: 999;
+        <nav class="col-md-4 col-lg-2 col-0 d-md-block sidebar " id="sidebar" style="position: fixed; height: auto; padding: 20px; z-index: 999;
         background: rgba(255, 255, 255, 0.15);
          backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -55,15 +53,15 @@ pre code{
                     </a>
                 </div>
                 <style>
-                    .bg-secondary{
+                    .bg-secondary {
                         background-color: var(--primary-color) !important;
                     }
                 </style>
                 <ul class="nav flex-column">
                     {% for t in all_topics %}
                     <li class="nav-item">
-                        <a class="nav-link {% if t.slug == topic.slug %}active bg-secondary text-white{% else %}text-dark{% endif %} rounded mx-2" 
-                           href="{% url 'topic_detail' t.id %}">
+                        <a class="nav-link {% if t.slug == topic.slug %}active bg-secondary text-white{% else %}text-dark{% endif %} rounded mx-2"
+                            href="{% url 'topic_detail' t.id %}">
                             <small>{{ forloop.counter }}. {{ t.title }}</small>
                         </a>
                     </li>
@@ -76,39 +74,41 @@ pre code{
             <i class="fas fa-bars"></i>
         </span>
         <style>
-        .floating_menu {
-            position: fixed;
-            bottom: 0;
-            left: 15px;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 10px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            z-index: 1000;
-            width: auto;
-            display: none; 
-        }
-        @media (max-width: 768px) {
             .floating_menu {
-                display: block;
-            }
-            #sidebar {
+                position: fixed;
+                bottom: 0;
+                left: 15px;
+                background-color: var(--primary-color);
+                color: white;
+                padding: 10px 12px;
+                border-radius: 8px;
+                cursor: pointer;
+                z-index: 1000;
+                width: auto;
                 display: none;
             }
-        }
+
+            @media (max-width: 768px) {
+                .floating_menu {
+                    display: block;
+                }
+
+                #sidebar {
+                    display: none;
+                }
+            }
         </style>
 
         <script>
-        document.querySelector('.floating_menu').addEventListener('click', function() {
-            const sidebar = document.querySelector('#sidebar');
-            if (sidebar.style.display === 'block') {
-                sidebar.style.display = 'none';
-            } else {
-                sidebar.style.display = 'block';
-            }
-            
-        });
+            document.querySelector('.floating_menu').addEventListener('click', function () {
+                const sidebar = document.querySelector('#sidebar');
+                if (sidebar.style.display === 'block') {
+                    sidebar.style.display = 'none';
+                } else {
+                    sidebar.style.display = 'block';
+                }
+
+            });
         </script>
         <!-- Main Content -->
         <main class="col-md-8 ms-sm-auto col-12 col-lg-10 px-md-4">
@@ -117,35 +117,48 @@ pre code{
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="">Courses</a></li>
-                        <li class="breadcrumb-item"><a href="{% url 'collection_detail' collection.slug %}">{{ collection.title }}</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'collection_detail' collection.slug %}">
+                            {{collection.title }}
+                        </a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ topic.title }}</li>
                     </ol>
                 </nav>
 
                 <div class="d-flex justify-content-between align-items-center mb-3 border-bottom ">
-                <div class="pb-3 ">
-                    <h4 class="fw-bold">{{ topic.title }}</h4>
-                    <p class="text-muted">Last updated: {{ topic.documentation.updated_at|date:"F d, Y" }}</p>
-                </div>
+                    <div class="pb-3 ">
+                        <h4 class="fw-bold">{{ topic.title }}</h4>
+                        <p class="text-muted">Last updated: {{ topic.documentation.updated_at|date:"F d, Y" }}</p>
+                    </div>
 
-                <div class="author-details">
-                    <div class=" mb-4">
-                        <img src="https://www.themarysue.com/wp-content/uploads/2020/11/One-Piece.jpg?w=1200"
-                             alt="Author"
-                             class="me-2 rounded border"
-                             style="height: 45px; width: 45px; object-fit: cover; object-position: center;">
-                        <div>
-                            <h6 class="mb-0">By Faysal Hassan Torjo</h6>
+                    <div class="author-details">
+                        <div class=" mb-4">
+                            <img src="https://www.themarysue.com/wp-content/uploads/2020/11/One-Piece.jpg?w=1200"
+                                alt="Author" class="me-2 rounded border"
+                                style="height: 45px; width: 45px; object-fit: cover; object-position: center;">
+                            <div>
+                                <h6 class="mb-0">By Faysal Hassan Torjo</h6>
+                            </div>
                         </div>
                     </div>
                 </div>
-                </div>
                 <!-- Topic Title -->
-                
+
 
                 <!-- Theory Section -->
-                
 
+                <style>
+                    .documentation-content blockquote {
+                        border-left: 4px solid #ccc;
+                        padding: 10px;
+                        margin: 1px 0;
+                        margin-left: 20px;
+                        font-style: italic;
+                    }
+
+                    .documentation-content blockquote p {
+                        margin: 0;
+                    }
+                </style>
                 <!-- Main Content -->
                 <div class=" border-0 mb-4">
                     <div class="card-body p-4">
@@ -156,10 +169,10 @@ pre code{
                 </div>
 
 
-               
-           
 
-                
+
+
+
             </div>
         </main>
     </div>
@@ -171,30 +184,30 @@ pre code{
 <script>hljs.highlightAll();</script>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    // Find all <pre><code> blocks
-    document.querySelectorAll('pre code').forEach((block) => {
-        // Wrap <pre> in a relative div
-        const pre = block.parentNode;
-        const wrapper = document.createElement('div');
-        wrapper.classList.add('code-wrapper');
-        pre.parentNode.insertBefore(wrapper, pre);
-        wrapper.appendChild(pre);
+    document.addEventListener("DOMContentLoaded", function () {
+        // Find all <pre><code> blocks
+        document.querySelectorAll('pre code').forEach((block) => {
+            // Wrap <pre> in a relative div
+            const pre = block.parentNode;
+            const wrapper = document.createElement('div');
+            wrapper.classList.add('code-wrapper');
+            pre.parentNode.insertBefore(wrapper, pre);
+            wrapper.appendChild(pre);
 
-        // Create copy button
-        const btn = document.createElement('button');
-        btn.innerText = 'Copy';
-        btn.classList.add('copy-btn', 'btn', 'btn-sm', 'btn-outline-secondary');
-        wrapper.appendChild(btn);
+            // Create copy button
+            const btn = document.createElement('button');
+            btn.innerText = 'Copy';
+            btn.classList.add('copy-btn', 'btn', 'btn-sm', 'btn-outline-secondary');
+            wrapper.appendChild(btn);
 
-        // Copy event
-        btn.addEventListener('click', () => {
-            navigator.clipboard.writeText(block.innerText).then(() => {
-                btn.innerText = 'Copied!';
-                setTimeout(() => btn.innerText = 'Copy', 1000);
-            }).catch(() => alert('Copy failed'));
+            // Copy event
+            btn.addEventListener('click', () => {
+                navigator.clipboard.writeText(block.innerText).then(() => {
+                    btn.innerText = 'Copied!';
+                    setTimeout(() => btn.innerText = 'Copy', 1000);
+                }).catch(() => alert('Copy failed'));
+            });
         });
     });
-});
 </script>
 {% endblock %}
