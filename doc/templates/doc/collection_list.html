@@ -40,7 +40,7 @@
 
 
     .custom-btn:hover {
-        background:none;
+        background: none;
         border: 2px solid #000000;
         color: #000000;
     }
@@ -80,13 +80,16 @@
             </div>
             <div class="col-md-6 hero-text">
                 <header role="banner"></header>
-                    <h1 class="h1 fw-bold mb-2">{{ author_name|default:"Faysal Hassan Torjo" }}</h1>
-                    <p class="lead mb-4">{{ hero_subtitle|default:"My personal documentation space — everything I learn, I document." }}</p>
-                    <div class="d-flex flex-wrap gap-2">
-                        <a href="#collection-list" class="custom-btn btn" role="button" aria-label="Explore documents">Documents</a>
-                        <a href="#project-list" class="custom-btn btn" role="button" aria-label="Explore projects">Projects</a>
-                        <a href="https://docs.google.com/document/d/13Kw-IVmG9K1GL2rYFSaoDpfLYZiXT6uvFbILa4drZ1E/edit?usp=sharing" class="project-btn btn" target="_blank">CV</a>
-                    </div>
+                <h1 class="h1 fw-bold mb-2">{{ author_name|default:"Faysal Hassan Torjo" }}</h1>
+                <p class="lead mb-4">{{ hero_subtitle|default:"My personal documentation space — everything I learn, I document." }}</p>
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="#collection-list" class="custom-btn btn" role="button"
+                        aria-label="Explore documents">Documents</a>
+                    <a href="#project-list" class="custom-btn btn" role="button"
+                        aria-label="Explore projects">Projects</a>
+                    <a href="https://docs.google.com/document/d/13Kw-IVmG9K1GL2rYFSaoDpfLYZiXT6uvFbILa4drZ1E/edit?usp=sharing"
+                        class="project-btn btn" target="_blank">CV</a>
+                </div>
                 </header>
             </div>
 
@@ -97,23 +100,42 @@
 <!-- Collections Section -->
 <div id="collection-list" class="container my-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="fw-bold text-dark mb-0">Documentation Collections</h3>
+        <h3 class="fw-bold mb-0" style="color: var(--text-primary);">Documentation Collections</h3>
         <!-- <a href="" class="text-primary fw-semibold text-decoration-none">
             + Add New
         </a> -->
     </div>
 
     <div class="row">
+        <style>
+            .collection-card {
+                border: none;
+                /* removes white border */
+                border-radius: 12px;
+                /* removes corner gap */
+            }
+
+            .collection-card .overlay {
+                padding: 0;
+                /* remove inner gap */
+            }
+
+            .collection-card .overlay>* {
+                padding: 12px 14px;
+                /* add back spacing only for content, not for container */
+            }
+        </style>
         {% for collection in collections %}
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="card collection-card h-100"
                 style="background-image: url({{collection.imageURL}}); background-size: cover;background-position: center ; background-repeat: no-repeat; overflow: hidden; padding: 0;">
-                <div class="card-body" style=" backdrop-filter: blur(5px); overflow: hidden;">
+                <div class="card-body"
+                    style=" backdrop-filter: blur(10px); overflow: hidden; background: rgba(0, 0, 0, 0.271); height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
                     <h5 class="card-title text-light fw-bold">{{ collection.title }}</h5>
-                    <p class="text-light mb-3">{{ collection.description|truncatewords:20 }}</p>
+                    <p class="text-light mb-3 mt-2">{{ collection.description|truncatewords:10 }}</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <small class="text-light">{{ collection.topics.count }} topics</small>
-                        <a href="{% url 'collection_detail' collection.slug %}" class="btn btn-outline-light btn-sm">
+                        <a href="{% url 'collection_detail' collection.slug %}" class="btn btn-light btn-sm">
                             View
                         </a>
                     </div>
@@ -134,8 +156,8 @@
 
 
 <div class="container my-5" id="project-list">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="fw-bold text-dark mb-0">Projects</h3>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold mb-0" style="color: var(--text-primary);">Projects</h3>
         <!-- <a href="" class="text-primary fw-semibold text-decoration-none">
             + Add New
         </a> -->
