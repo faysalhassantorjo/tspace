@@ -5,21 +5,12 @@
 {% block content %}
 <style>
     /* 🌈 Modern Polished Portfolio Styling */
-    :root {
-        --primary: #e67e22;
-        --primary-dark: #7b3f0c;
-        --secondary: #f9fafb;
-        --text: #1e293b;
-        --muted: #64748b;
-        --accent: #06d6a0;
-        --radius: 16px;
-        --shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
-    }
+
 
     /* Base Setup */
     body {
-        background: var(--secondary);
-        color: var(--text);
+        background: var(--bg);
+        color: var(--text-primary);
         scroll-behavior: smooth;
     }
 
@@ -75,14 +66,14 @@
 
     .tech-section h3 {
         font-weight: 700;
-        color: var(--text);
+        color: var(--text-primary);
         margin-bottom: 2rem;
         position: relative;
     }
 
     .description h3 {
         font-weight: 700;
-        color: var(--text);
+        color: var(--primary);
         margin-bottom: 1.5rem;
     }
 
@@ -91,7 +82,7 @@
         position: absolute;
         width: 70px;
         height: 3px;
-        background: var(--primary);
+        background: var(--text-primary);
         bottom: -10px;
         left: 50%;
         transform: translateX(-50%);
@@ -105,11 +96,11 @@
     }
 
     .tech-item {
-        background: white;
+        background: var(--bg-secondary);
         padding: 1rem 1.3rem;
         width: 130px;
         transition: all 0.3s ease;
-        border: 1px solid #e5e7eb;
+        border: 1px solid #e5e7eb79;
     }
 
     .tech-item:hover {
@@ -137,7 +128,7 @@
 
     .project-gallery h3 {
         font-weight: 700;
-        color: var(--text);
+        color: var(--text-primary);
         margin-bottom: 1.5rem;
     }
 
@@ -287,7 +278,7 @@
 <div class="project-thumbnail">
     <img src="{{ project.thumbnail.url }}" alt="{{ project.title }}">
     <div class="overlay">
-        <h1 class="project_title fw-bold" style="color: #fff;">{{ project.title }}</h1>
+        <h1 class="project_title fw-bold" style="color: #ffffffb1;">{{ project.title }}</h1>
     </div>
 </div>
 
@@ -478,8 +469,8 @@
     .project-links a {
         align-items: center;
         justify-content: center;
-        background: var(--primary);
-        color: white;
+        background: var(--bg-secondary);
+        color: var(--text-primary);
         text-decoration: none;
         padding: 8px;
         font-weight: 600;
@@ -489,13 +480,6 @@
 
     }
 
-    .project-links a.github {
-        background: #111827;
-    }
-
-    .project-links a.video {
-        background: #ef4444;
-    }
 
     .project-links a:hover {
         transform: translateY(-4px);

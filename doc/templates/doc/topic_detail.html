@@ -42,30 +42,38 @@
     <div class="row">
         <!-- Sidebar Navigation -->
         <nav class="col-md-4 col-lg-2 col-0 d-md-block sidebar " id="sidebar" style="position: fixed; height: auto; padding: 20px; z-index: 999;
-        background: rgba(255, 255, 255, 0.15);
+        background: var(--glass-bg);
          backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
         ">
             <div class="">
                 <div class="">
                     <a href="" class="text-decoration-none">
-                        <h6 class="text-muted text-uppercase fw-bold">{{ collection.title }}</h6>
+                        <h6 class=" text-capitalize fw-bold" style="color: var(--text-primary);">{{ collection.title }}</h6>
                     </a>
                 </div>
                 <style>
                     .bg-secondary {
                         background-color: var(--primary-color) !important;
                     }
+                    .text-secondary {
+                        color: var(--text-secondary) !important;
+                    }
+                    .text-primary {
+                        color: var(--text-primary) !important;
+                    }
                 </style>
                 <ul class="nav flex-column">
                     {% for t in all_topics %}
                     <li class="nav-item">
-                        <a class="nav-link {% if t.slug == topic.slug %}active bg-secondary text-white{% else %}text-dark{% endif %} rounded mx-2"
-                            href="{% url 'topic_detail' t.id %}">
+                        <a class="nav-link {% if t.slug == topic.slug %}active bg-secondary text-primary{% else %}text-secondary{% endif %} rounded"
+                        style="color: var(--text-primary);"
+                        href="{% url 'topic_detail' t.id %}">
                             <small>{{ forloop.counter }}. {{ t.title }}</small>
                         </a>
                     </li>
                     {% endfor %}
+
                 </ul>
             </div>
         </nav>
@@ -114,20 +122,40 @@
         <main class="col-md-8 ms-sm-auto col-12 col-lg-10 px-md-4">
             <div class="py-4">
                 <!-- Breadcrumb -->
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
+                 <style>
+                    .breadcrumb {
+                        background: transparent;
+                        padding: 0;
+                        margin-bottom: 1rem;
+                    }
+
+                    .breadcrumb-item a {
+                        color: var(--text-secondary);
+                        text-decoration: none;
+                    }
+
+                    .breadcrumb-item a:hover {
+                        text-decoration: underline;
+                    }
+
+                    .breadcrumb-item.active {
+                        color: var(--text-primary);
+                    }
+                 </style>
+                <nav aria-label="breadcrumb" >
+                    <ol class="breadcrumb" >
                         <li class="breadcrumb-item"><a href="">Courses</a></li>
                         <li class="breadcrumb-item"><a href="{% url 'collection_detail' collection.slug %}">
                             {{collection.title }}
                         </a></li>
-                        <li class="breadcrumb-item active" aria-current="page">{{ topic.title }}</li>
+                        <li class="breadcrumb-item active"  aria-current="page">{{ topic.title }}</li>
                     </ol>
                 </nav>
 
                 <div class="d-flex justify-content-between align-items-center mb-3 border-bottom ">
                     <div class="pb-3 ">
                         <h4 class="fw-bold">{{ topic.title }}</h4>
-                        <p class="text-muted">Last updated: {{ topic.documentation.updated_at|date:"F d, Y" }}</p>
+                        <p class="text-secondary">Last updated: {{ topic.documentation.updated_at|date:"F d, Y" }}</p>
                     </div>
 
                     <div class="author-details">
