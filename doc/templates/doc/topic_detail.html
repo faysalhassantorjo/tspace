@@ -18,7 +18,7 @@
         border-radius: 4px 6px 4px 6px;
         padding: 0px;
         margin-bottom: 25px;
-        background-color: #151b23;
+        background-color: #1e1e1e;
 
     }
 
@@ -46,36 +46,48 @@
          backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
         ">
-            <div class="">
-                <div class="">
-                    <a href="" class="text-decoration-none">
-                        <h6 class=" text-capitalize fw-bold" style="color: var(--text-primary);">{{ collection.title }}</h6>
-                    </a>
-                </div>
-                <style>
-                    .bg-secondary {
-                        background-color: var(--primary-color) !important;
-                    }
-                    .text-secondary {
-                        color: var(--text-secondary) !important;
-                    }
-                    .text-primary {
-                        color: var(--text-primary) !important;
-                    }
-                </style>
-                <ul class="nav flex-column">
-                    {% for t in all_topics %}
-                    <li class="nav-item">
-                        <a class="nav-link {% if t.slug == topic.slug %}active bg-secondary text-primary{% else %}text-secondary{% endif %} rounded"
-                        style="color: var(--text-primary);"
-                        href="{% url 'topic_detail' t.id %}">
-                            <small>{{ forloop.counter }}. {{ t.title }}</small>
-                        </a>
-                    </li>
-                    {% endfor %}
+           <div class="sidebar-wrapper p-3">
+    <a href="" class="text-decoration-none d-block mb-3">
+        <h6 class="text-capitalize fw-semibold sidebar-title">{{ collection.title }}</h6>
+    </a>
 
-                </ul>
-            </div>
+    <ul class="nav flex-column gap-1">
+        {% for t in all_topics %}
+        <li class="nav-item" style="width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            <a
+                href="{% url 'topic_detail' t.id %}"
+                class="nav-link px-3 py-2 rounded sidebar-link
+                {% if t.slug == topic.slug %} active {% endif %}"
+            >
+                <small>{{ forloop.counter }}. {{ t.title }}</small>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<style>
+
+
+    .sidebar-title {
+        color: var(--text-primary);
+    }
+
+    .sidebar-link {
+        color: var(--text-secondary);
+        transition: all .2s ease;
+    }
+
+    .sidebar-link:hover {
+        background: var(--hover-bg);
+        color: var(--text-primary);
+    }
+
+    .sidebar-link.active {
+        border-left: 4px solid var(--primary-color);
+    }
+</style>
+
         </nav>
 
         <span class="floating_menu">
