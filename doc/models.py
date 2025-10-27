@@ -89,9 +89,21 @@ class Project(models.Model):
         return self.title
 
 class Technology(models.Model):
+    
+    skills_category =[
+        ('frontend','Frontend'),
+        ("backend", 'Backend'),
+        ('ai', 'AI'),
+        # ('datascience','DataScience'),
+        ('tool','Tool'),
+        ('db','DataBase'),
+        ('utility','Utility')
+    ]
+    
     name = models.CharField(max_length=100)
     icon = models.CharField(max_length=50, blank=True, help_text="CSS class or emoji", null=True)
 
+    category = models.CharField(choices=skills_category, null=True, blank=True, max_length=30)
     class Meta:
         verbose_name_plural = "Technologies"
         ordering = ['name']

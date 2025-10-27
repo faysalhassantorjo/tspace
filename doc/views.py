@@ -1,10 +1,12 @@
 from django.shortcuts import render
-from .models import Collection, Topic, Documentation, Project
+from .models import Collection, Topic, Documentation, Project, Technology
 # Create your views here.
 def collection_list(request):
     collections = Collection.objects.all()
     projects = Project.objects.all()
-    return render(request, 'doc/collection_list.html', {'collections': collections, 'projects': projects})
+    
+    techs = Technology.objects.all()
+    return render(request, 'doc/collection_list.html', {'collections': collections, 'projects': projects, 'techs': techs})
 
 def collection_detail(request, slug):
     collection = Collection.objects.get(slug=slug)
