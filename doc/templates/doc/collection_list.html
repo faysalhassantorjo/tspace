@@ -78,18 +78,46 @@
                 <img src="{% static 'doc/images/dp.png' %}" alt="Learning Illustration" class="img-fluid"
                     style="max-height: 500px;">
             </div>
+       
             <div class="col-md-6 hero-text">
                 <header role="banner"></header>
                 <h1 class="h1 fw-bold mb-2">{{ author_name|default:"Faysal Hassan Torjo" }}</h1>
                 <p class="lead mb-4">{{ hero_subtitle|default:"My personal documentation space — everything I learn, I document." }}</p>
-                <div class="d-flex flex-wrap gap-2">
-                    <a href="#collection-list" class="custom-btn btn" role="button"
-                        aria-label="Explore documents">Documents</a>
-                    <a href="#project-list" class="custom-btn btn" role="button"
-                        aria-label="Explore projects">Projects</a>
+                <div class="nav-actions d-flex flex-wrap justify-content-center gap-3">
+                    <a href="#collection-list" class="nav-chip">Documents</a>
+                    <a href="#project-list" class="nav-chip">Projects</a>
+                    
+                    <a href="#skills" class="nav-chip">Skills</a>
                     <a href="https://docs.google.com/document/d/13Kw-IVmG9K1GL2rYFSaoDpfLYZiXT6uvFbILa4drZ1E/edit?usp=sharing"
-                        class="project-btn btn" target="_blank">CV</a>
+                    target="_blank" class="nav-chip">CV</a>
                 </div>
+                <style>
+                .nav-actions{
+                    margin-top:2rem;
+                }
+
+                .nav-chip{
+                    display:inline-block;
+                    padding:.55rem 1.2rem;
+                    border-radius:10px;
+                    font-size:.9rem;
+                    font-weight:500;
+                    text-decoration:none;
+                    color:var(--text-primary);
+                    background:var(--bg-secondary);
+                    border:1px solid var(--border);
+                    transition:.25s ease;
+                }
+
+                .nav-chip:hover{
+                    background:var(--primary-color);
+                    color:#fff;
+                    transform:translateY(-2px);
+                    box-shadow:0 4px 12px rgba(0,0,0,.15);
+                }
+
+                </style>
+
                 </header>
             </div>
 
@@ -233,6 +261,96 @@
         {% endfor %}
     </div>
 </div>
+
+<style>
+   .skill-block{
+    margin-bottom:2rem;
+}
+
+.skill-heading{
+    display:flex;
+    align-items:center;
+    gap:.5rem;
+    margin-bottom:.8rem;
+}
+
+.skill-heading .bar{
+    width:3px;
+    height:18px;
+    border-radius:4px;
+    background:var(--primary-color);
+}
+
+.skill-heading h4{
+    margin:0;
+    font-size:1rem;
+    font-weight:600;
+    color:var(--text-primary);
+}
+
+.skill-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(100px,1fr));
+    gap:.7rem;
+}
+
+.skill-card{
+    background:var(--glass-bg);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:12px 6px;
+    text-align:center;
+    transition:.2s;
+}
+
+.skill-card:hover{
+    background:rgba(255,255,255,0.06);
+    transform:translateY(-2px);
+}
+
+.skill-card img{
+    width:32px;
+    margin-bottom:6px;
+    opacity:.85;
+}
+
+.skill-card p{
+    font-size:.8rem;
+    color:var(--text-secondary);
+    margin:0;
+    font-weight:500;
+}
+
+</style>
+
+<div class="container mt-5" id="skills">
+    <div class="d-flex justify-content-center align-items-center mb-4 mt-5">
+        <h3 class="fw-bold mb-0" style="color: var(--text-primary);">Skills</h3>
+    </div>
+    {% for cat_key, cat_label in techs.model.skills_category %}
+    {% if cat_label %}
+    <section class="skill-block">
+        <div class="skill-heading">
+            <span class="bar"></span>
+            <h4>{{ cat_label }}</h4>
+        </div>
+
+        <div class="skill-grid">
+            {% for tech in techs %}
+            {% if tech.category == cat_key %}
+            <div class="skill-card">
+                <img src="https://cdn.simpleicons.org/{{ tech.icon }}" alt="{{ tech.name }}">
+                <p>{{ tech.name }}</p>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+    {% endfor %}
+
+</div>
+
 
 
 {% endblock %}
