@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import Collection, Topic, Documentation, Project, Technology
 # Create your views here.
 def collection_list(request):
-    collections = Collection.objects.all()
+    collections = Collection.objects.all().order_by('-updated_at')
     projects = Project.objects.all()
     
     techs = Technology.objects.all()
