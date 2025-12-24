@@ -46,47 +46,43 @@
          backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
         ">
-           <div class="sidebar-wrapper p-3">
-    <a href="" class="text-decoration-none d-block mb-3">
-        <h6 class="text-capitalize fw-semibold sidebar-title">{{ collection.title }}</h6>
-    </a>
+            <div class="sidebar-wrapper p-3">
+                <a href="" class="text-decoration-none d-block mb-3">
+                    <h6 class="text-capitalize fw-semibold sidebar-title">{{ collection.title }}</h6>
+                </a>
 
-    <ul class="nav flex-column gap-1">
-        {% for t in all_topics %}
-        <li class="nav-item" style="width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-            <a
-                href="{% url 'topic_detail' t.id %}"
-                class="nav-link px-3 py-2 rounded sidebar-link
-                {% if t.slug == topic.slug %} active {% endif %}"
-            >
-                <small>{{ forloop.counter }}. {{ t.title }}</small>
-            </a>
-        </li>
-        {% endfor %}
-    </ul>
-</div>
+                <ul class="nav flex-column gap-1">
+                    {% for t in all_topics %}
+                    <li class="nav-item"
+                        style="width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                        <a href="{% url 'topic_detail' t.id %}" class="nav-link px-3 py-2 rounded sidebar-link
+                {% if t.slug == topic.slug %} active {% endif %}">
+                            <small>{{ forloop.counter }}. {{ t.title }}</small>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
 
-<style>
+            <style>
+                .sidebar-title {
+                    color: var(--text-primary);
+                }
 
+                .sidebar-link {
+                    color: var(--text-secondary);
+                    transition: all .2s ease;
+                }
 
-    .sidebar-title {
-        color: var(--text-primary);
-    }
+                .sidebar-link:hover {
+                    background: var(--hover-bg);
+                    color: var(--text-primary);
+                }
 
-    .sidebar-link {
-        color: var(--text-secondary);
-        transition: all .2s ease;
-    }
-
-    .sidebar-link:hover {
-        background: var(--hover-bg);
-        color: var(--text-primary);
-    }
-
-    .sidebar-link.active {
-        border-left: 4px solid var(--primary-color);
-    }
-</style>
+                .sidebar-link.active {
+                    border-left: 4px solid var(--primary-color);
+                }
+            </style>
 
         </nav>
 
@@ -134,7 +130,7 @@
         <main class="col-md-8 ms-sm-auto col-12 col-lg-10 px-md-4">
             <div class="py-4">
                 <!-- Breadcrumb -->
-                 <style>
+                <style>
                     .breadcrumb {
                         background: transparent;
                         padding: 0;
@@ -153,14 +149,14 @@
                     .breadcrumb-item.active {
                         color: var(--text-primary);
                     }
-                 </style>
-                <nav aria-label="breadcrumb" >
-                    <ol class="breadcrumb" >
+                </style>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="">Courses</a></li>
                         <li class="breadcrumb-item"><a href="{% url 'collection_detail' collection.slug %}">
-                            {{collection.title }}
-                        </a></li>
-                        <li class="breadcrumb-item active"  aria-current="page">{{ topic.title }}</li>
+                                {{collection.title }}
+                            </a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ topic.title }}</li>
                     </ol>
                 </nav>
 
@@ -168,6 +164,10 @@
                     <div class="pb-3 ">
                         <h4 class="fw-bold">{{ topic.title }}</h4>
                         <p class="text-secondary">Last updated: {{ topic.documentation.updated_at|date:"F d, Y" }}</p>
+                        {% if user.is_superuser %}
+                        <a href="{% url 'documentation_update' topic.documentation.id %}"
+                            class="btn btn-info btn-sm">Edit</a>
+                        {% endif %}
                     </div>
 
                     <div class="author-details">

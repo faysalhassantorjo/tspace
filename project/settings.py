@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ckeditor',
-    'ckeditor_uploader',
+   
+   'django_ckeditor_5',
+
     'doc',
     
     'django.contrib.sites',
@@ -142,49 +143,35 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-CKEDITOR_UPLOAD_PATH = "uploads/"
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'
 
-CKEDITOR_CONFIGS = {
+
+CKEDITOR_5_CONFIGS = {
     'default': {
-        'toolbar': 'full',
-        'height': 400,
-        'width': '100%',
-        'toolbar_full': [
-            ['Styles', 'Format', 'Bold', 'Italic', 'Underline', 'Strike', 'SpellChecker', 'Undo', 'Redo'],
-            ['Blockquote'],
-            ['Link', 'Unlink', 'Anchor'],
-            ['Image', 'Flash', 'Table', 'HorizontalRule'],
-            ['TextColor', 'BGColor'],
-            ['Smiley', 'SpecialChar'], ['Source'],
-            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-            ['NumberedList', 'BulletedList'],
-            ['Indent', 'Outdent'],
-            ['CodeSnippet'],  # <-- Add this button for inserting code blocks
-            ['Maximize'],
+        'toolbar': [
+            'heading', '|',
+            'bold', 'italic', 'link',
+            'bulletedList', 'numberedList',
+            'blockQuote',
+            'code', 'codeBlock',
+            'insertTable',
+            'imageUpload', '|',
+            'undo', 'redo',
         ],
-        'extraPlugins': ','.join([
-            'uploadimage',
-            'div',
-            'autolink',
-            'autoembed',
-            'embedsemantic',
-            'autogrow',
-            'widget',
-            'lineutils',
-            'clipboard',
-            'dialog',
-            'dialogui',
-            'elementspath',
-            'codesnippet',  # enables code highlighting
-        ]),
-        'codeSnippet_theme': 'monokai_sublime',
-    },
+        'codeBlock': {
+            'languages': [
+                {'language': 'plaintext', 'label': 'Plain text'},
+                {'language': 'bash', 'label': 'Bash'},
+                {'language': 'python', 'label': 'Python'},
+                {'language': 'c', 'label': 'C'},
+                {'language': 'cpp', 'label': 'C++'},
+                {'language': 'cs', 'label': 'C#'},
+                {'language': 'javascript', 'label': 'JavaScript'},
+            ]
+        },
+        'height': '700px',
+    }
 }
-CKEDITOR_UPLOAD_PATH = "uploads/"
-CKEDITOR_IMAGE_BACKEND = "pillow"

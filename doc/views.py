@@ -24,3 +24,46 @@ def topic_detail(request, pk):
 def project_detail(request, slug):
     project = Project.objects.get(slug=slug)
     return render(request, 'doc/project_details.html', {'project': project})
+
+from .forms import DocumentationForm, TopicForm
+from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404
+
+def documentation_create(request):
+
+    if request.method == 'POST':
+        documentation_form = DocumentationForm(request.POST)
+        topic_form = TopicForm(request.POST)
+        if documentation_form.is_valid() and topic_form.is_valid():
+            topic = topic_form.save()
+            documentation = documentation_form.save(commit=False)
+            documentation.topic = topic
+            documentation.save()
+            return redirect('/')
+    else:
+        documentation_form = DocumentationForm()
+        topic_form = TopicForm()
+    return render(request, 'doc/documentation_create.html', {
+        'documentation_form': documentation_form,
+        'topic_form': topic_form,
+    })
+
+def documentation_update(request, id):
+    documentation = get_object_or_404(Documentation, pk=id)
+
+    if request.method == 'POST':
+        documentation_form = DocumentationForm(request.POST, instance=documentation)
+        topic_form = TopicForm(request.POST, instance=documentation.topic)
+        if documentation_form.is_valid() and topic_form.is_valid():
+            topic = topic_form.save()
+            documentation = documentation_form.save(commit=False)
+            documentation.topic = topic
+            documentation.save()
+            return redirect('/')
+    else:
+        documentation_form = DocumentationForm(instance=documentation)
+        topic_form = TopicForm(instance=documentation.topic)
+    return render(request, 'doc/documentation_create.html', {
+        'documentation_form': documentation_form,
+        'topic_form': topic_form,
+    })

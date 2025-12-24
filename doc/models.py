@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
-from ckeditor_uploader.fields import RichTextUploadingField
+from django_ckeditor_5.fields import CKEditor5Field
+
 
 class Collection(models.Model):
     title = models.CharField(max_length=200)
@@ -57,7 +58,7 @@ class Topic(models.Model):
 
 class Documentation(models.Model):
     topic = models.OneToOneField(Topic, on_delete=models.CASCADE, related_name='documentation')
-    content = RichTextUploadingField(help_text="Main documentation content with rich text editor")
+    content = CKEditor5Field('Documentation Content', help_text="Main documentation content with rich text editor")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -68,7 +69,7 @@ class Project(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True)
     short_description = models.CharField(max_length=300, null=True, blank=True)
-    description =RichTextUploadingField(help_text="Detailed project description.")
+    description =CKEditor5Field('Project Description', help_text="Detailed project description.")
     thumbnail = models.ImageField(upload_to='project_thumbnails/', help_text="Main project image")
     live_url = models.URLField(blank=True, help_text="Live demo link")
     github_url = models.URLField(blank=True, help_text="GitHub repository link")

@@ -7,4 +7,6 @@ urlpatterns = [
     path('collection/<slug:slug>/', views.collection_detail, name='collection_detail'),
     path('topic/<int:pk>/', views.topic_detail, name='topic_detail'),
     path('project/<slug:slug>/', views.project_detail, name='project_detail'),
+    path('documentation/create/', views.documentation_create, name='documentation_create'),
+    path('documentation/update/<int:id>/', views.documentation_update, name='documentation_update'),
 ]
