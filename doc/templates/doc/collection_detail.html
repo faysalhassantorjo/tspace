@@ -17,8 +17,10 @@
         <div class="col-lg-8">
             <div class="header d-flex justify-content-between">
                 <h3 class="mb-4">Course Topics</h3>
+                {% if request.user.is_superuser %}
                 <a class=" text-decoration-none btn-sm" href="{% url 'documentation_create' %}">Create
                     Documentation</a>
+                {% endif %}
             </div>
             {% for topic in topics %}
             <div class="card mb-3 shadow-sm border-0"

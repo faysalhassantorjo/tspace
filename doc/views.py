@@ -59,11 +59,12 @@ def documentation_update(request, id):
             documentation = documentation_form.save(commit=False)
             documentation.topic = topic
             documentation.save()
-            return redirect('/')
+            return redirect('topic_detail', pk=topic.pk)
     else:
         documentation_form = DocumentationForm(instance=documentation)
         topic_form = TopicForm(instance=documentation.topic)
     return render(request, 'doc/documentation_create.html', {
         'documentation_form': documentation_form,
         'topic_form': topic_form,
+        'update': True,
     })
