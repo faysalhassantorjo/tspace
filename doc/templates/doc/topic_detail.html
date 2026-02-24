@@ -214,6 +214,57 @@
                     .documentation-content table th {
                         background-color: var(--primary-color);
                     }
+
+                    .image_resized {
+                        display: flex !important;
+                        justify-content: center !important;
+                        align-items: center !important;
+                    }
+
+                    .image_resized img {
+                        width: 100% !important;
+                        height: auto;
+                        display: block;
+                        border-radius: 5px;
+
+                    }
+
+
+
+                    #image_preview {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background-color: rgba(0, 0, 0, 0.5);
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        z-index: 1000;
+                        display: none;
+                        z-index: 99999;
+                    }
+
+                    #image_preview img {
+                        max-width: 90%;
+                        max-height: 90%;
+                        object-fit: contain;
+                        border-radius: 5px;
+                    }
+
+                    ul {
+                        margin-left: 20px;
+                        padding-left: 20px;
+                    }
+
+                    ol {
+                        margin-bottom: 5px;
+                    }
+
+                    li {
+                        margin-bottom: 5px;
+                    }
                 </style>
                 <!-- Main Content -->
                 <div class=" border-0 mb-4">
@@ -223,6 +274,25 @@
                         </div>
                     </div>
                 </div>
+
+                <div id="image_preview">
+
+                </div>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        const imagePreview = document.getElementById("image_preview");
+                        const images = document.querySelectorAll(".documentation-content img");
+                        images.forEach(image => {
+                            image.addEventListener("click", function () {
+                                imagePreview.innerHTML = `<img src="${image.src}" alt="${image.alt}">`;
+                                imagePreview.style.display = "flex";
+                            });
+                        });
+                        imagePreview.addEventListener("click", function () {
+                            imagePreview.style.display = "none";
+                        });
+                    });
+                </script>
 
 
 

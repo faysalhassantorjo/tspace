@@ -39,7 +39,7 @@ def documentation_create(request):
             documentation = documentation_form.save(commit=False)
             documentation.topic = topic
             documentation.save()
-            return redirect('/')
+            return redirect('topic_detail', pk=topic.pk)
     else:
         documentation_form = DocumentationForm()
         topic_form = TopicForm()

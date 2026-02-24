@@ -3,7 +3,13 @@ from .models import Collection, Topic, Documentation, Project, Technology, Proje
 # Register your models here.
 
 admin.site.register(Collection)
-admin.site.register(Topic)
+
+@admin.register(Topic)
+class TopicAdmin(admin.ModelAdmin):
+    list_display = ('title', 'collection', 'created_at', 'updated_at')
+    list_filter = ('collection',)
+    search_fields = ('title',)
+    ordering = ('-created_at',)
 # admin.site.register(Documentation)
 admin.site.register(Project)
 admin.site.register(Technology)
