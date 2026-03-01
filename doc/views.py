@@ -6,7 +6,7 @@ def collection_list(request):
     projects = Project.objects.all()
     
     techs = Technology.objects.all()
-    return render(request, 'doc/collection_list.html', {'collections': collections, 'projects': projects, 'techs': techs})
+    return render(request, 'doc/backup.html', {'collections': collections, 'projects': projects, 'techs': techs})
 
 def collection_detail(request, slug):
     collection = Collection.objects.get(slug=slug)
@@ -30,7 +30,11 @@ from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
 
 def documentation_create(request):
-
+    collection_id = request.GET.get('collection_id')
+    try:
+        collection = Collection.objects.get(id=collection_id)
+    except Collection.DoesNotExist:
+        collection = None
     if request.method == 'POST':
         documentation_form = DocumentationForm(request.POST)
         topic_form = TopicForm(request.POST)
@@ -46,6 +50,7 @@ def documentation_create(request):
     return render(request, 'doc/documentation_create.html', {
         'documentation_form': documentation_form,
         'topic_form': topic_form,
+        'collection': collection,
     })
 
 def documentation_update(request, id):

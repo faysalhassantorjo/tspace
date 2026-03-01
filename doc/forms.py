@@ -9,7 +9,7 @@ class DocumentationForm(ModelForm):
 class TopicForm(ModelForm):
     class Meta:
         model = Topic
-        fields = ['title','collection']
+        fields = ['title','collection','order']
     
     # style
     def __init__(self, *args, **kwargs):
