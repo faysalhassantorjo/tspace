@@ -12,15 +12,31 @@ def collection_detail(request, slug):
     collection = Collection.objects.get(slug=slug)
     print('collection:', collection)
     topics = collection.topics.all()
+
     return render(request, 'doc/collection_detail.html', {'collection': collection, 'topics': topics})
+
+from itertools import groupby
 
 def topic_detail(request, pk):
     topic = Topic.objects.get(pk=pk)
     collection = topic.collection
-    all_topics = collection.topics.all()
-    
-    return render(request, 'doc/topic_detail.html', {'topic': topic, 'all_topics': all_topics, 'collection': collection})
+    all_topics = collection.topics.all()  # already ordered by ['order', 'created_at']
 
+    # Group topics by their `group` field (None groups go under None)
+    grouped_topics = []
+    for group_name, topics in groupby(all_topics, key=lambda t: t.group):
+        grouped_topics.append({
+            'group_name': group_name,
+            'topics': list(topics),
+        })
+
+    return render(request, 'doc/topic_detail.html', {
+        'topic': topic,
+        'all_topics': all_topics,
+        'collection': collection,
+        'grouped_topics': grouped_topics,
+    })
+    
 def project_detail(request, slug):
     project = Project.objects.get(slug=slug)
     return render(request, 'doc/project_details.html', {'project': project})

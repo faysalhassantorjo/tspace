@@ -38,6 +38,10 @@ class Topic(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(blank=True)
     order = models.PositiveIntegerField(default=0)
+
+    group = models.CharField(max_length=100, blank=True, null=True)
+
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

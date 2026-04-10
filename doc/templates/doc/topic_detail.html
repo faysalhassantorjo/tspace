@@ -452,8 +452,8 @@
         margin: 1.5em 0;
     }
 
-    .documentation-content .image_resized img {
-        width: 80% !important;
+    .documentation-content .image img {
+        width: 100% !important;
         height: auto;
         display: block;
         border-radius: 10px;
@@ -461,6 +461,8 @@
         border: 1px solid var(--border);
         transition: box-shadow 0.25s;
     }
+
+
 
     .documentation-content .image_resized img:hover {
         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
@@ -640,17 +642,149 @@
             <span class="sidebar-coll-title">{{ collection.title }}</span>
         </a>
 
-        <div class="sidebar-section-label">Topics</div>
+
+
+        <style>
+            .create-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                background: var(--primary-tint);
+                color: var(--primary-color);
+                font-size: 0.7rem;
+                font-weight: 400;
+                padding: 7px 10px;
+                border-radius: 10px;
+                text-decoration: none;
+                border: 1px solid rgba(230, 126, 34, 0.2);
+                transition: all 0.25s ease;
+                text-transform: capitalize;
+            }
+
+            .create-btn:hover {
+                background: var(--primary-color);
+                color: #fff;
+                border-color: var(--primary-color);
+            }
+
+            .sidebar-group-header {
+                padding: 16px 4px 4px;
+                list-style: none;
+            }
+
+            /* Add a subtle top border for visual separation, skip on first group */
+            .sidebar-group-header+.sidebar-group-header,
+            li+.sidebar-group-header {
+                margin-top: 4px;
+            }
+
+            .group-badge {
+                font-size: 0.68rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                padding: 3px 10px;
+                border-radius: 999px;
+                color: #fff;
+            }
+
+            .group-color-1 {
+                background-color: #6366f1;
+            }
+
+            .group-color-2 {
+                background-color: #f59e0b;
+            }
+
+            .group-color-3 {
+                background-color: #10b981;
+            }
+
+            .group-color-4 {
+                background-color: #ef4444;
+            }
+
+            .group-color-5 {
+                background-color: #3b82f6;
+            }
+
+            .group-color-6 {
+                background-color: #8b5cf6;
+            }
+
+            .group-color-7 {
+                background-color: #ec4899;
+            }
+
+            .group-color-8 {
+                background-color: #14b8a6;
+            }
+        </style>
+
+        <div class="sidebar-section-label d-flex justify-content-between align-items-center">
+            <div>Topics</div>
+
+            {% if request.user.is_superuser %}
+            <a href="{% url 'documentation_create' %}" class="create-btn">
+                <i class="fas fa-plus"></i> New Topic
+            </a>
+            {% endif %}
+        </div>
 
         <ul class="sidebar-nav">
-            {% for t in all_topics %}
+            {% for group in grouped_topics %}
+
+            {% if group.group_name %}
+            <li class="sidebar-group-header">
+                <span class="group-badge group-color-{{ forloop.counter }}">
+                    {{ group.group_name }}
+                </span>
+            </li>
+            {% else %}
+            <li class="sidebar-group-divider">
+                <span>General</span> <!-- or just remove the span for a plain line -->
+            </li>
+            {% endif %}
+
+            <style>
+                .sidebar-group-divider {
+                    list-style: none;
+                    padding: 14px 4px 4px;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    color: var(--text-muted, #aaa);
+                    font-size: 0.68rem;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: 0.1em;
+                }
+
+                /* the line */
+                .sidebar-group-divider::before {
+                    content: '';
+                    flex: 1;
+                    height: 1px;
+                    background: var(--border-color, #e5e7eb);
+                }
+
+                /* if you kept the <span> label, add a line after too */
+                .sidebar-group-divider span::after {
+                    content: '';
+                    display: block;
+                }
+            </style>
+
+            {% for t in group.topics %}
             <li>
                 <a href="{% url 'topic_detail' t.id %}"
                     class="sidebar-nav-link {% if t.slug == topic.slug %}active{% endif %}">
-                    <span class="nav-num">{{ forloop.counter|stringformat:"02d" }}</span>
+                    <span class="nav-num">{{ t.order|stringformat:"02d" }}</span>
                     <span>{{ t.title }}</span>
                 </a>
             </li>
+            {% endfor %}
+
             {% endfor %}
         </ul>
     </aside>
