@@ -3,198 +3,173 @@
 
 {% block extra_head %}
 <style>
-    /* ════════════════════════════════════════════════════
-   HERO BANNER
-════════════════════════════════════════════════════ */
-    .collection-hero {
-        padding: 40px 0 60px;
-        position: relative;
-        overflow: hidden;
-        background: var(--bg);
+    :root {
+        --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
     }
 
-    .collection-hero::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(ellipse 60% 80% at 80% 50%, var(--primary-tint) 0%, transparent 70%);
-        pointer-events: none;
+    /* ── HERO ── */
+    .collection-hero {
+        padding: 60px 0 56px;
+        border-bottom: 0.5px solid var(--border);
+        background: var(--bg);
     }
 
     .hero-eyebrow {
         display: inline-flex;
         align-items: center;
         gap: 10px;
-        font-family: monospace;
-        font-size: 0.72rem;
-        font-weight: 700;
-        color: var(--primary-color);
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--text-secondary);
+        letter-spacing: 0.06em;
         text-transform: uppercase;
-        letter-spacing: 3px;
-        margin-bottom: 18px;
+        margin-bottom: 24px;
+        opacity: 0.6;
     }
 
     .hero-eyebrow::before {
-        content: '';
-        display: inline-block;
-        width: 20px;
-        height: 1px;
-        background: var(--primary-color);
+        content: '//';
+        opacity: 0.4;
     }
 
     .collection-hero h1 {
-        font-size: clamp(2rem, 6vw, 3.8rem);
-        font-weight: 900;
-        letter-spacing: -1.5px;
+        font-size: clamp(2rem, 6vw, 3.5rem);
+        font-weight: 500;
+        letter-spacing: -0.03em;
         line-height: 1.05;
         color: var(--text-primary);
-        margin-bottom: 16px;
+        margin-bottom: 14px;
     }
 
-    .collection-hero p {
-        font-size: clamp(0.95rem, 2vw, 1.1rem);
+    .collection-hero .hero-desc {
+        font-size: 15px;
         color: var(--text-secondary);
         line-height: 1.7;
         max-width: 540px;
+        border-left: 2px solid var(--border);
+        padding-left: 16px;
+        margin-bottom: 0;
     }
 
     .hero-meta {
         display: flex;
         align-items: center;
-        gap: 20px;
+        gap: 8px;
         margin-top: 28px;
         flex-wrap: wrap;
     }
 
     .meta-chip {
-        display: flex;
+        display: inline-flex;
         align-items: center;
-        gap: 8px;
-        background: var(--bg-secondary);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 6px 14px;
-        font-size: 0.78rem;
-        font-weight: 700;
+        gap: 6px;
+        font-family: var(--font-mono);
+        font-size: 10px;
         color: var(--text-secondary);
+        border: 0.5px solid var(--border);
+        border-radius: 3px;
+        padding: 5px 10px;
+        letter-spacing: 0.03em;
     }
 
     .meta-chip i {
-        color: var(--primary-color);
-        font-size: 0.75rem;
+        font-size: 9px;
+        opacity: 0.6;
     }
 
-    /* ════════════════════════════════════════════════════
-   LAYOUT
-════════════════════════════════════════════════════ */
+    /* ── LAYOUT ── */
     .content-section {
-        padding: 48px 0 80px;
-        background: var(--bg);
+        padding: 52px 0 80px;
     }
 
-    /* ════════════════════════════════════════════════════
-   TOPIC LIST
-════════════════════════════════════════════════════ */
+    /* ── SECTION LABEL ── */
     .section-label {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 28px;
+        margin-bottom: 24px;
         flex-wrap: wrap;
         gap: 12px;
     }
 
     .section-label h3 {
-        font-size: 1.2rem;
-        font-weight: 900;
-        letter-spacing: -0.5px;
+        font-size: 13px;
+        font-weight: 500;
         color: var(--text-primary);
         margin: 0;
+        font-family: var(--font-mono);
+        letter-spacing: 0.02em;
+    }
+
+    .section-label h3::before {
+        content: '// ';
+        opacity: 0.4;
     }
 
     .create-btn {
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        background: var(--primary-tint);
-        color: var(--primary-color);
-        font-size: 0.78rem;
-        font-weight: 800;
-        padding: 7px 16px;
-        border-radius: 10px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--text-secondary);
+        padding: 6px 12px;
+        border: 0.5px solid var(--border);
+        border-radius: 4px;
         text-decoration: none;
-        border: 1px solid rgba(230, 126, 34, 0.2);
-        transition: all 0.25s ease;
+        transition: color 0.15s, border-color 0.15s, background 0.15s;
+        letter-spacing: 0.02em;
     }
 
     .create-btn:hover {
-        background: var(--primary-color);
-        color: #fff;
-        border-color: var(--primary-color);
+        color: var(--text-primary);
+        border-color: var(--text-secondary);
+        background: var(--bg-secondary);
     }
 
-    /* Topic card */
-    .topic-card {
-        background: var(--bg);
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        padding: 18px 20px;
-        margin-bottom: 12px;
+    .create-btn i {
+        font-size: 10px;
+        opacity: 0.7;
+    }
+
+    /* ── TOPIC LIST ── */
+    .topic-list {
         display: flex;
-        align-items: center;
-        gap: 18px;
-        transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-        text-decoration: none;
-        color: inherit;
-        position: relative;
+        flex-direction: column;
+        border: 0.5px solid var(--border);
+        border-radius: 6px;
         overflow: hidden;
     }
 
-    .topic-card::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 3px;
-        background: var(--primary-color);
-        border-radius: 3px 0 0 3px;
-        transform: scaleY(0);
-        transition: transform 0.3s ease;
+    .topic-card {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 16px 20px;
+        background: var(--bg);
+        border-bottom: 0.5px solid var(--border);
+        text-decoration: none;
+        color: inherit;
+        transition: background 0.15s;
+        position: relative;
+    }
+
+    .topic-card:last-child {
+        border-bottom: none;
     }
 
     .topic-card:hover {
-        border-color: var(--primary-color);
-        box-shadow: 0 8px 28px rgba(230, 126, 34, 0.1);
-        transform: translateX(6px);
-        color: inherit;
-    }
-
-    .topic-card:hover::before {
-        transform: scaleY(1);
+        background: var(--bg-secondary);
     }
 
     .topic-num {
-        width: 42px;
-        height: 42px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--text-secondary);
+        opacity: 0.4;
+        width: 28px;
         flex-shrink: 0;
-        background: var(--primary-tint);
-        border: 1.5px solid rgba(230, 126, 34, 0.2);
-        color: var(--primary-color);
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 900;
-        font-size: 0.85rem;
-        font-family: monospace;
-        transition: all 0.3s ease;
-    }
-
-    .topic-card:hover .topic-num {
-        background: var(--primary-color);
-        color: #fff;
-        border-color: var(--primary-color);
+        letter-spacing: 0.02em;
     }
 
     .topic-info {
@@ -203,93 +178,111 @@
     }
 
     .topic-title {
-        font-size: 0.95rem;
-        font-weight: 600;
+        font-size: 14px;
+        font-weight: 500;
         color: var(--text-primary);
         margin-bottom: 3px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        letter-spacing: -0.01em;
     }
 
     .topic-date {
-        font-size: 0.72rem;
+        font-family: var(--font-mono);
+        font-size: 10px;
         color: var(--text-secondary);
+        opacity: 0.5;
+        letter-spacing: 0.02em;
+    }
+
+    .topic-date i {
+        font-size: 9px;
+        margin-right: 4px;
     }
 
     .topic-arrow {
-        width: 34px;
-        height: 34px;
-        flex-shrink: 0;
-        background: var(--bg-secondary);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        font-family: var(--font-mono);
+        font-size: 12px;
         color: var(--text-secondary);
-        font-size: 0.7rem;
-        transition: all 0.3s ease;
+        opacity: 0.3;
+        flex-shrink: 0;
+        transition: opacity 0.15s, transform 0.15s;
     }
 
     .topic-card:hover .topic-arrow {
-        background: var(--primary-color);
-        color: #fff;
-        border-color: var(--primary-color);
-        transform: rotate(-45deg);
+        opacity: 1;
+        transform: translateX(3px);
     }
 
     /* Empty state */
     .empty-state {
-        border: 2px dashed var(--border);
-        border-radius: 18px;
-        padding: 50px 20px;
+        border: 0.5px dashed var(--border);
+        border-radius: 6px;
+        padding: 48px 24px;
         text-align: center;
-        color: var(--text-secondary);
-        font-size: 0.88rem;
     }
 
-    /* ════════════════════════════════════════════════════
-   SIDEBAR
-════════════════════════════════════════════════════ */
+    .empty-state p {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--text-secondary);
+        opacity: 0.4;
+        margin: 0;
+    }
+
+    .empty-state p::before {
+        content: '// ';
+    }
+
+    /* ── SIDEBAR ── */
     .sidebar-card {
-        background: var(--bg);
-        border: 1px solid var(--border);
-        border-radius: 22px;
+        border: 0.5px solid var(--border);
+        border-radius: 6px;
         overflow: hidden;
         position: sticky;
         top: 90px;
     }
 
     .sidebar-header {
-        background: var(--primary-color);
-        padding: 20px 22px;
+        padding: 18px 20px;
+        border-bottom: 0.5px solid var(--border);
+        background: var(--bg-secondary);
     }
 
     .sidebar-header h5 {
-        color: #fff;
-        font-weight: 900;
-        font-size: 1rem;
-        letter-spacing: -0.3px;
-        margin: 0;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--text-primary);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        margin: 0 0 2px;
+        opacity: 0.7;
+    }
+
+    .sidebar-header h5::before {
+        content: '// ';
+        opacity: 0.5;
     }
 
     .sidebar-header p {
-        color: rgba(255, 255, 255, 0.7);
-        font-size: 0.78rem;
-        margin: 4px 0 0;
+        font-size: 12px;
+        color: var(--text-secondary);
+        margin: 0;
+        opacity: 0.6;
     }
 
     .sidebar-body {
-        padding: 22px;
+        padding: 0;
     }
 
     .stat-row {
         display: flex;
         align-items: center;
         gap: 14px;
-        padding: 14px 0;
-        border-bottom: 1px solid var(--border);
+        padding: 14px 20px;
+        border-bottom: 0.5px solid var(--border);
     }
 
     .stat-row:last-of-type {
@@ -297,73 +290,79 @@
     }
 
     .stat-icon {
-        width: 38px;
-        height: 38px;
+        width: 32px;
+        height: 32px;
         flex-shrink: 0;
-        background: var(--bg-secondary);
-        border: 1px solid var(--border);
-        border-radius: 10px;
+        border: 0.5px solid var(--border);
+        border-radius: 4px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.85rem;
-        color: var(--primary-color);
+        font-size: 11px;
+        color: var(--text-secondary);
+        opacity: 0.7;
     }
 
     .stat-label {
-        font-size: 0.7rem;
+        font-family: var(--font-mono);
+        font-size: 10px;
         color: var(--text-secondary);
-        font-weight: 700;
+        letter-spacing: 0.04em;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        opacity: 0.5;
+        margin-bottom: 2px;
     }
 
     .stat-value {
-        font-size: 0.9rem;
-        font-weight: 600;
+        font-size: 13px;
+        font-weight: 500;
         color: var(--text-primary);
+        letter-spacing: -0.01em;
+    }
+
+    .sidebar-footer {
+        padding: 16px 20px;
+        border-top: 0.5px solid var(--border);
     }
 
     .start-btn {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
+        gap: 8px;
         width: 100%;
-        padding: 13px;
-        background: var(--primary-color);
-        color: #fff;
-        font-weight: 600;
-        font-size: 0.88rem;
-        border-radius: 13px;
+        padding: 10px 16px;
+        background: var(--text-primary);
+        color: var(--bg);
+        font-family: var(--font-mono);
+        font-size: 12px;
+        font-weight: 500;
+        border-radius: 4px;
         text-decoration: none;
         border: none;
         cursor: pointer;
-        margin-top: 20px;
-        transition: all 0.3s ease;
-        letter-spacing: 0.3px;
+        letter-spacing: 0.03em;
+        transition: opacity 0.15s;
     }
 
     .start-btn:hover {
-        background: #d67118;
-        color: #fff;
-        box-shadow: 0 8px 24px rgba(230, 126, 34, 0.35);
-        transform: translateY(-2px);
+        opacity: 0.85;
+        color: var(--bg);
     }
 
     .start-btn:disabled {
         background: var(--bg-secondary);
         color: var(--text-secondary);
         cursor: not-allowed;
-        transform: none;
-        box-shadow: none;
+        opacity: 0.5;
+        border: 0.5px solid var(--border);
     }
 
-    /* Scroll animations */
+    /* ── FADE IN ── */
     .fade-up {
         opacity: 0;
-        transform: translateY(24px);
-        transition: opacity .5s ease, transform .5s ease;
+        transform: translateY(16px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
     }
 
     .fade-up.visible {
@@ -376,25 +375,24 @@
 {% block content %}
 {% load static %}
 
-<!-- ═══════════ HERO ═══════════ -->
+<!-- ── HERO ── -->
 <section class="collection-hero">
     <div class="container">
-        <div class="hero-eyebrow">Collection</div>
+        <div class="hero-eyebrow">collection</div>
         <h1>{{ collection.title }}</h1>
-        <p>{{ collection.description }}</p>
+        <p class="hero-desc">{{ collection.description }}</p>
         <div class="hero-meta">
-            <div class="meta-chip"><i class="fas fa-layer-group"></i> {{ topics.count }} Topics</div>
-            <div class="meta-chip"><i class="fas fa-calendar-plus"></i>
-                Created {{ collection.created_at|date:"M d, Y" }}
-            </div>
-            <div class="meta-chip"><i class="fas fa-rotate-right"></i>
-                Updated {{ collection.updated_at|date:"M d, Y" }}
-            </div>
+            <span class="meta-chip"><i class="fas fa-layer-group"></i> {{ topics.count }} topics</span>
+            <span class="meta-chip"><i class="fas fa-calendar-plus"></i>
+                created {{ collection.created_at|date:"M d, Y" }}</span>
+            <span class="meta-chip"><i class="fas fa-rotate-right"></i>
+                updated {{ collection.updated_at|date:"M d, Y" }}
+            </span>
         </div>
     </div>
 </section>
 
-<!-- ═══════════ CONTENT ═══════════ -->
+<!-- ── CONTENT ── -->
 <section class="content-section">
     <div class="container">
         <div class="row g-5">
@@ -402,69 +400,73 @@
             <!-- Topics List -->
             <div class="col-lg-8">
                 <div class="section-label fade-up">
-                    <h3>Course Topics</h3>
+                    <h3>course topics</h3>
                     {% if request.user.is_superuser %}
                     <a href="{% url 'documentation_create' %}" class="create-btn">
-                        <i class="fas fa-plus"></i> New Topic
+                        <i class="fas fa-plus"></i> new topic
                     </a>
                     {% endif %}
                 </div>
 
-                {% for topic in topics %}
-                <a href="{% url 'topic_detail' topic.id %}" class="topic-card fade-up">
-                    <div class="topic-num">{{ forloop.counter|stringformat:"02d" }}</div>
-                    <div class="topic-info">
-                        <div class="topic-title">{{ topic.title }}</div>
-                        <div class="topic-date"><i class="fas fa-clock" style="font-size:.6rem;"></i>
-                            Updated {{ topic.updated_at|date:"M d, Y" }}</div>
-                    </div>
-                    <div class="topic-arrow"><i class="fas fa-arrow-right"></i></div>
-                </a>
-                {% empty %}
-                <div class="empty-state fade-up">
-                    <i class="fas fa-inbox"
-                        style="font-size:2rem;margin-bottom:12px;display:block;color:var(--border);"></i>
-                    No topics available yet in this collection.
+                {% if topics %}
+                <div class="topic-list">
+                    {% for topic in topics %}
+                    <a href="{% url 'topic_detail' topic.id %}" class="topic-card fade-up">
+                        <span class="topic-num">{{ forloop.counter|stringformat:"02d" }}</span>
+                        <div class="topic-info">
+                            <div class="topic-title">{{ topic.title }}</div>
+                            <div class="topic-date">
+                                <i class="fas fa-clock"></i>updated {{ topic.updated_at|date:"M d, Y" }}
+                            </div>
+                        </div>
+                        <span class="topic-arrow">→</span>
+                    </a>
+                    {% endfor %}
                 </div>
-                {% endfor %}
+                {% else %}
+                <div class="empty-state fade-up">
+                    <p>no topics available yet in this collection</p>
+                </div>
+                {% endif %}
             </div>
 
             <!-- Sidebar -->
             <div class="col-lg-4 fade-up">
                 <div class="sidebar-card">
                     <div class="sidebar-header">
-                        <h5>Collection Info</h5>
+                        <h5>collection info</h5>
                         <p>Everything you need to get started</p>
                     </div>
                     <div class="sidebar-body">
                         <div class="stat-row">
                             <div class="stat-icon"><i class="fas fa-book-open"></i></div>
                             <div>
-                                <div class="stat-label">Topics</div>
+                                <div class="stat-label">topics</div>
                                 <div class="stat-value">{{ topics.count }} total</div>
                             </div>
                         </div>
                         <div class="stat-row">
                             <div class="stat-icon"><i class="fas fa-calendar-plus"></i></div>
                             <div>
-                                <div class="stat-label">Created</div>
+                                <div class="stat-label">created</div>
                                 <div class="stat-value">{{ collection.created_at|date:"M d, Y" }}</div>
                             </div>
                         </div>
                         <div class="stat-row">
                             <div class="stat-icon"><i class="fas fa-rotate-right"></i></div>
                             <div>
-                                <div class="stat-label">Last Updated</div>
+                                <div class="stat-label">last updated</div>
                                 <div class="stat-value">{{ collection.updated_at|date:"M d, Y" }}</div>
                             </div>
                         </div>
-
+                    </div>
+                    <div class="sidebar-footer">
                         {% if topics %}
                         <a href="{% url 'topic_detail' topics.0.id %}" class="start-btn">
-                            Start Exploring <i class="fas fa-arrow-right"></i>
+                            start exploring <i class="fas fa-arrow-right"></i>
                         </a>
                         {% else %}
-                        <button class="start-btn" disabled>No Topics Yet</button>
+                        <button class="start-btn" disabled>no topics yet</button>
                         {% endif %}
                     </div>
                 </div>
@@ -476,7 +478,9 @@
 
 <script>
     const observer = new IntersectionObserver(
-        entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }),
+        entries => entries.forEach(e => {
+            if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+        }),
         { threshold: 0.08, rootMargin: '0px 0px -30px 0px' }
     );
     document.querySelectorAll('.fade-up').forEach((el, i) => {

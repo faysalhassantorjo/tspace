@@ -2,6 +2,8 @@
 {% block title %}TorjoDocs — Backend Systems & Architecture{% endblock %}
 
 {% block extra_head %}
+
+<link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
 <style>
     /* ════════════════════════════════
        HERO
@@ -33,7 +35,7 @@
     }
 
     .hero-name {
-        font-family: var(--sans);
+        font-family: 'Fjalla One', sans-serif;
         font-size: clamp(2.8rem, 7vw, 5rem);
         font-weight: 600;
         line-height: 1.05;
@@ -128,7 +130,7 @@
         border-radius: 6px;
         object-fit: cover;
         border: 1px solid var(--border);
-        filter: grayscale(15%);
+        filter: drop-shadow(40% 40% 40% var(--text-primary));
     }
 
     @media (max-width: 991px) {
@@ -469,16 +471,16 @@
     <div class="container">
         <div class="row flex-row-reverse align-items-start">
 
-            <div class="col-lg-4 hero-portrait-wrap">
-                <img src="{% static 'doc/images/dp.png' %}" alt="Faysal Hassan Torjo" class="hero-portrait">
+            <div class="col-lg-4 col-md-6 col-sm-6 hero-portrait-wrap">
+                <img src="{% static 'doc/images/dp2.jpg' %}" alt="Faysal Hassan Torjo" class="hero-portrait">
             </div>
 
-            <div class="col-lg-8">
+            <div class="col-lg-8 col-md-6 col-sm-6" style="margin: auto;">
                 <p class="hero-eyebrow">Software Documentation &amp; Architecture</p>
 
                 <h1 class="hero-name">
                     Faysal
-                    <span class="dim">Hassan</span><br>
+                    <span class="dim">Hassan</span>
                     <span class="acc">Torjo</span>
                 </h1>
 

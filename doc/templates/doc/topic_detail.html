@@ -5,37 +5,37 @@
 {% block extra_head %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai-sublime.min.css">
 <style>
-    /* ════════════════════════════════════════════════════
-   LAYOUT
-════════════════════════════════════════════════════ */
+    :root {
+        --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+    }
+
+    /* ── LAYOUT ── */
     .doc-layout {
         display: flex;
         min-height: 100vh;
         padding-top: 10px;
     }
 
-    /* ════════════════════════════════════════════════════
-   SIDEBAR
-════════════════════════════════════════════════════ */
+    /* ── SIDEBAR ── */
     .doc-sidebar {
-        width: 280px;
+        width: 260px;
         flex-shrink: 0;
         position: fixed;
         top: 70px;
         left: 0;
         bottom: 0;
         overflow-y: auto;
-        padding: 28px 16px 40px;
+        padding: 24px 12px 40px;
         background: var(--bg);
-        border-right: 1px solid var(--border);
+        border-right: 0.5px solid var(--border);
         z-index: 100;
-        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         scrollbar-width: thin;
         scrollbar-color: var(--border) transparent;
     }
 
     .doc-sidebar::-webkit-scrollbar {
-        width: 4px;
+        width: 3px;
     }
 
     .doc-sidebar::-webkit-scrollbar-track {
@@ -44,80 +44,150 @@
 
     .doc-sidebar::-webkit-scrollbar-thumb {
         background: var(--border);
-        border-radius: 4px;
+        border-radius: 2px;
     }
 
+    /* back link */
     .sidebar-collection-link {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
         text-decoration: none;
         margin-bottom: 24px;
-        padding: 10px 14px;
-        background: var(--primary-tint);
-        border: 1px solid rgba(230, 126, 34, 0.15);
-        border-radius: 12px;
-        transition: all 0.25s ease;
+        padding: 8px 12px;
+        border: 0.5px solid var(--border);
+        border-radius: 4px;
+        transition: background 0.15s, border-color 0.15s;
     }
 
     .sidebar-collection-link:hover {
-        background: var(--primary-color);
+        background: var(--bg-secondary);
+        border-color: var(--text-secondary);
+    }
+
+    .sidebar-back-icon {
+        font-size: 10px;
+        color: var(--text-secondary);
+        flex-shrink: 0;
+        transition: color 0.15s;
+    }
+
+    .sidebar-coll-title {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--text-secondary);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        letter-spacing: 0.02em;
+        transition: color 0.15s;
     }
 
     .sidebar-collection-link:hover .sidebar-back-icon,
     .sidebar-collection-link:hover .sidebar-coll-title {
-        color: #fff;
+        color: var(--text-primary);
     }
 
-    .sidebar-back-icon {
-        color: var(--primary-color);
-        font-size: 0.75rem;
-        flex-shrink: 0;
-        transition: color 0.25s;
-    }
-
-    .sidebar-coll-title {
-        font-size: 0.8rem;
-        font-weight: 600;
-        color: var(--primary-color);
-        line-height: 1.2;
-        transition: color 0.25s;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
+    /* section label */
     .sidebar-section-label {
-        font-size: 0.65rem;
-        font-weight: 600;
+        font-family: var(--font-mono);
+        font-size: 10px;
         text-transform: uppercase;
-        letter-spacing: 2px;
+        letter-spacing: 0.06em;
         color: var(--text-secondary);
-        padding: 0 12px;
+        opacity: 0.5;
+        padding: 0 10px;
         margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 
+    /* create btn */
+    .create-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--text-secondary);
+        padding: 4px 9px;
+        border: 0.5px solid var(--border);
+        border-radius: 3px;
+        text-decoration: none;
+        letter-spacing: 0.02em;
+        transition: color 0.15s, border-color 0.15s, background 0.15s;
+        opacity: 1;
+    }
+
+    .create-btn:hover {
+        color: var(--text-primary);
+        border-color: var(--text-secondary);
+        background: var(--bg-secondary);
+    }
+
+    /* nav list */
     .sidebar-nav {
         list-style: none;
         padding: 0;
         margin: 0;
         display: flex;
         flex-direction: column;
-        gap: 3px;
+        gap: 2px;
     }
 
+    /* group headers */
+    .sidebar-group-header {
+        padding: 14px 4px 6px;
+        list-style: none;
+    }
+
+    .group-badge {
+        font-family: var(--font-mono);
+        font-size: 9px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        padding: 3px 8px;
+        border-radius: 2px;
+        color: var(--text-secondary);
+        border: 0.5px solid var(--border);
+        background: var(--bg-secondary);
+    }
+
+    .sidebar-group-divider {
+        list-style: none;
+        padding: 12px 4px 4px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--font-mono);
+        font-size: 9px;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        opacity: 0.4;
+    }
+
+    .sidebar-group-divider::before {
+        content: '';
+        flex: 1;
+        height: 0.5px;
+        background: var(--border);
+    }
+
+    /* nav links */
     .sidebar-nav-link {
         display: flex;
         align-items: flex-start;
         gap: 10px;
-        padding: 9px 12px;
-        border-radius: 10px;
+        padding: 8px 10px;
+        border-radius: 3px;
         text-decoration: none;
         color: var(--text-secondary);
-        font-size: 0.8rem;
-        font-weight: 600;
+        font-size: 12px;
         line-height: 1.4;
-        transition: all 0.2s ease;
+        transition: background 0.15s, color 0.15s;
         position: relative;
     }
 
@@ -127,42 +197,33 @@
     }
 
     .sidebar-nav-link.active {
-        background: var(--primary-tint);
-        color: var(--primary-color);
-        font-weight: 600;
-    }
-
-    .sidebar-nav-link.active::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 6px;
-        bottom: 6px;
-        width: 3px;
-        background: var(--primary-color);
-        border-radius: 0 3px 3px 0;
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        border-left: 2px solid var(--text-primary);
+        padding-left: 8px;
     }
 
     .nav-num {
-        font-family: monospace;
-        font-size: 0.68rem;
+        font-family: var(--font-mono);
+        font-size: 10px;
         color: var(--text-secondary);
         flex-shrink: 0;
+        opacity: 0.4;
         margin-top: 1px;
-        transition: color 0.2s;
+        transition: opacity 0.15s;
     }
 
-    .sidebar-nav-link.active .nav-num {
-        color: var(--primary-color);
+    .sidebar-nav-link.active .nav-num,
+    .sidebar-nav-link:hover .nav-num {
+        opacity: 0.7;
     }
 
-    /* Mobile sidebar overlay */
+    /* mobile overlay */
     .sidebar-overlay {
         display: none;
         position: fixed;
         inset: 0;
-        background: rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(4px);
+        background: rgba(0, 0, 0, 0.5);
         z-index: 99;
     }
 
@@ -170,39 +231,36 @@
         display: block;
     }
 
-    /* Floating menu toggle */
     .floating-menu-btn {
         position: fixed;
         bottom: 80px;
         left: 20px;
-        width: 46px;
-        height: 46px;
-        background: var(--primary-color);
-        color: #fff;
+        width: 42px;
+        height: 42px;
+        background: var(--text-primary);
+        color: var(--bg);
         border: none;
-        border-radius: 14px;
+        border-radius: 4px;
         cursor: pointer;
         z-index: 300;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1rem;
-        box-shadow: 0 4px 20px rgba(230, 126, 34, 0.4);
-        transition: all 0.25s ease;
+        font-size: 14px;
+        transition: opacity 0.2s;
         visibility: hidden;
         opacity: 0;
         pointer-events: none;
     }
 
     .floating-menu-btn:hover {
-        transform: scale(1.05);
+        opacity: 0.85;
     }
 
     @media (max-width: 991px) {
         .doc-sidebar {
             transform: translateX(-100%);
-            background: var(--bg);
-            box-shadow: 4px 0 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 4px 0 24px rgba(0, 0, 0, 0.08);
         }
 
         .doc-sidebar.open {
@@ -220,62 +278,62 @@
         }
     }
 
-    /* ════════════════════════════════════════════════════
-   MAIN CONTENT
-════════════════════════════════════════════════════ */
+    /* ── MAIN CONTENT ── */
     .doc-main {
         flex: 1;
-        margin-left: 280px;
+        margin-left: 260px;
         min-width: 0;
         padding: 40px clamp(20px, 5vw, 60px) 80px;
         max-width: 100%;
     }
 
-    /* Breadcrumb */
+    /* breadcrumb */
     .doc-breadcrumb {
         display: flex;
         align-items: center;
         gap: 8px;
-        font-size: 0.75rem;
-        margin-bottom: 32px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        margin-bottom: 36px;
         flex-wrap: wrap;
+        opacity: 0.6;
     }
 
     .doc-breadcrumb a {
         color: var(--text-secondary);
         text-decoration: none;
-        font-weight: 600;
-        transition: color 0.2s;
+        transition: color 0.15s, opacity 0.15s;
     }
 
     .doc-breadcrumb a:hover {
-        color: var(--primary-color);
+        color: var(--text-primary);
+        opacity: 1;
     }
 
     .doc-breadcrumb .sep {
-        color: var(--border);
-        font-size: 0.65rem;
+        opacity: 0.3;
+        font-size: 9px;
     }
 
     .doc-breadcrumb .current {
         color: var(--text-primary);
-        font-weight: 700;
+        opacity: 1;
     }
 
-    /* Topic header */
+    /* topic header */
     .topic-header {
-        padding-bottom: 28px;
-        border-bottom: 1px solid var(--border);
-        margin-bottom: 36px;
+        padding-bottom: 24px;
+        border-bottom: 0.5px solid var(--border);
+        margin-bottom: 40px;
     }
 
     .topic-header h1 {
         font-size: clamp(1.6rem, 4vw, 2.4rem);
-        font-weight: 700;
-        letter-spacing: -1px;
+        font-weight: 500;
+        letter-spacing: -0.03em;
         line-height: 1.1;
         color: var(--text-primary);
-        margin-bottom: 12px;
+        margin-bottom: 16px;
     }
 
     .topic-meta {
@@ -283,80 +341,84 @@
         align-items: center;
         justify-content: space-between;
         flex-wrap: wrap;
-        gap: 16px;
+        gap: 12px;
     }
 
     .topic-meta-left {
         display: flex;
         align-items: center;
-        gap: 16px;
+        gap: 12px;
         flex-wrap: wrap;
     }
 
     .meta-tag {
         display: inline-flex;
         align-items: center;
-        gap: 6px;
-        font-size: 0.75rem;
-        font-weight: 700;
+        gap: 5px;
+        font-family: var(--font-mono);
+        font-size: 10px;
         color: var(--text-secondary);
+        opacity: 0.6;
+        letter-spacing: 0.02em;
     }
 
     .meta-tag i {
-        color: var(--primary-color);
-        font-size: 0.7rem;
-    }
-
-    .edit-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 6px 14px;
-        background: var(--bg-secondary);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        color: var(--text-primary);
-        text-decoration: none;
-        transition: all 0.25s ease;
-    }
-
-    .edit-btn:hover {
-        border-color: var(--primary-color);
-        color: var(--primary-color);
-        background: var(--primary-tint);
+        font-size: 9px;
     }
 
     .author-chip {
         display: flex;
         align-items: center;
-        gap: 10px;
-        padding: 6px 14px 6px 6px;
-        background: var(--bg-secondary);
-        border: 1px solid var(--border);
-        border-radius: 40px;
+        gap: 8px;
+        padding: 4px 10px 4px 4px;
+        border: 0.5px solid var(--border);
+        border-radius: 3px;
     }
 
     .author-chip img {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        border-radius: 2px;
         object-fit: cover;
         object-position: center;
     }
 
     .author-chip span {
-        font-size: 0.78rem;
-        font-weight: 600;
-        color: var(--text-primary);
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--text-secondary);
+        letter-spacing: 0.02em;
     }
 
-    /* ════════════════════════════════════════════════════
-   DOCUMENTATION CONTENT
-════════════════════════════════════════════════════ */
+    .edit-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--text-secondary);
+        padding: 6px 12px;
+        border: 0.5px solid var(--border);
+        border-radius: 3px;
+        text-decoration: none;
+        letter-spacing: 0.02em;
+        transition: color 0.15s, border-color 0.15s, background 0.15s;
+    }
+
+    .edit-btn:hover {
+        color: var(--text-primary);
+        border-color: var(--text-secondary);
+        background: var(--bg-secondary);
+    }
+
+    .edit-btn i {
+        font-size: 10px;
+        opacity: 0.7;
+    }
+
+    /* ── DOCUMENTATION CONTENT ── */
     .documentation-content {
-        font-size: 0.97rem;
+        font-size: 15px;
         line-height: 1.8;
         color: var(--text-primary);
     }
@@ -365,21 +427,21 @@
     .documentation-content h2,
     .documentation-content h3,
     .documentation-content h4 {
-        font-weight: 700;
-        letter-spacing: -0.5px;
+        font-weight: 500;
+        letter-spacing: -0.02em;
         color: var(--text-primary);
         margin-top: 2.2em;
         margin-bottom: 0.6em;
     }
 
     .documentation-content h2 {
-        font-size: 1.4rem;
-        border-bottom: 1px solid var(--border);
+        font-size: 1.35rem;
+        border-bottom: 0.5px solid var(--border);
         padding-bottom: 8px;
     }
 
     .documentation-content h3 {
-        font-size: 1.15rem;
+        font-size: 1.1rem;
     }
 
     .documentation-content p {
@@ -387,19 +449,23 @@
     }
 
     .documentation-content a {
-        color: var(--primary-color);
+        color: var(--text-primary);
         text-decoration: underline;
         text-underline-offset: 3px;
+        opacity: 0.8;
+    }
+
+    .documentation-content a:hover {
+        opacity: 1;
     }
 
     .documentation-content blockquote {
         margin: 2rem 0;
-        padding: 1.25rem 1.75rem;
-        border-left: 2px solid var(--primary-color);
-        /* background: var(--bg-secondary) */
-        border-radius: 12px;
+        padding: 14px 20px;
+        border-left: 2px solid var(--accent);
         font-style: italic;
-        color: var(--text-secondary);
+        color: var(--text-primary);
+        border-radius: 0;
     }
 
     .documentation-content blockquote p {
@@ -410,30 +476,30 @@
         width: 100%;
         border-collapse: collapse;
         margin: 1.5em 0;
-        border-radius: 12px;
+        border: 0.5px solid var(--border);
+        border-radius: 4px;
         overflow: hidden;
-        border: 1px solid var(--border);
-        font-size: 0.9rem;
+        font-size: 13px;
     }
 
     .documentation-content table th {
-        background: var(--primary-color);
-        color: #fff;
+        background: var(--bg-secondary);
+        color: var(--text-primary);
         padding: 10px 14px;
-        font-weight: 700;
+        font-weight: 500;
         text-align: left;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: 0.03em;
+        border-bottom: 0.5px solid var(--border);
     }
 
     .documentation-content table td {
         padding: 10px 14px;
-        border-top: 1px solid var(--border);
+        border-top: 0.5px solid var(--border);
         color: var(--text-primary);
-        background-color: var(--bg-secondary);
+        background-color: var(--bg);
     }
-
-    /* .documentation-content table tr:nth-child(even) td {
-        background: var(--bg-secondary);
-    } */
 
     .documentation-content ul,
     .documentation-content ol {
@@ -456,91 +522,86 @@
         width: 100% !important;
         height: auto;
         display: block;
-        border-radius: 10px;
+        border-radius: 4px;
         cursor: zoom-in;
-        border: 1px solid var(--border);
-        transition: box-shadow 0.25s;
+        border: 0.5px solid var(--border);
+        transition: opacity 0.2s;
     }
 
-
-
     .documentation-content .image_resized img:hover {
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        opacity: 0.85;
     }
 
     .documentation-content img {
         cursor: zoom-in;
     }
 
-    /* ════════════════════════════════════════════════════
-   CODE BLOCKS
-════════════════════════════════════════════════════ */
-
+    /* ── CODE BLOCKS ── */
     code {
-        background-color: var(--bg-secondary);
-        padding: 3px 5px;
-        border-radius: 4px;
+        font-family: var(--font-mono);
+        background: var(--bg-secondary);
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-size: 13px;
+        border: 0.5px solid var(--border);
     }
 
     .code-wrapper {
         position: relative;
         margin: 1.5em 0;
-        border-radius: 12px;
+        border-radius: 4px;
         overflow: hidden;
-        border: 1px solid rgba(255, 255, 255, 0.06);
+        border: 0.5px solid var(--border);
     }
 
     .code-wrapper pre {
         margin: 0;
         border-radius: 0;
         padding: 0;
-        background: #1a1a1a;
+        background: #111;
     }
 
     .code-wrapper pre code {
         padding: 20px !important;
-        font-size: 0.85rem !important;
+        font-size: 13px !important;
         line-height: 1.65 !important;
+        border: none;
+        background: transparent;
     }
 
     .copy-btn {
         position: absolute;
         top: 10px;
         right: 10px;
-        padding: 4px 12px;
-        font-size: 0.7rem;
-        font-weight: 600;
-        background: rgba(255, 255, 255, 0.08);
-        color: rgba(255, 255, 255, 0.7);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
+        padding: 3px 10px;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: 0.03em;
+        background: rgba(255, 255, 255, 0.06);
+        color: rgba(255, 255, 255, 0.5);
+        border: 0.5px solid rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
         cursor: pointer;
         z-index: 10;
-        transition: all 0.2s ease;
-        font-family: 'Titillium Web', sans-serif;
+        transition: background 0.15s, color 0.15s;
     }
 
     .copy-btn:hover {
-        background: var(--primary-color);
-        color: #fff;
-        border-color: var(--primary-color);
+        background: rgba(255, 255, 255, 0.12);
+        color: rgba(255, 255, 255, 0.9);
     }
 
     .copy-btn.copied {
-        background: #2ecc71;
-        color: #fff;
-        border-color: #2ecc71;
+        background: rgba(74, 222, 128, 0.15);
+        color: #4ade80;
+        border-color: rgba(74, 222, 128, 0.3);
     }
 
-    /* ════════════════════════════════════════════════════
-   IMAGE LIGHTBOX
-════════════════════════════════════════════════════ */
+    /* ── LIGHTBOX ── */
     #image_preview {
         position: fixed;
         inset: 0;
-        background: rgba(0, 0, 0, 0.85);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
+        background: rgba(0, 0, 0, 0.88);
         display: none;
         align-items: center;
         justify-content: center;
@@ -556,20 +617,18 @@
         max-width: 90vw;
         max-height: 88vh;
         object-fit: contain;
-        border-radius: 12px;
-        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+        border-radius: 4px;
+        border: 0.5px solid rgba(255, 255, 255, 0.1);
     }
 
-    /* ════════════════════════════════════════════════════
-   NAV PREV/NEXT
-════════════════════════════════════════════════════ */
+    /* ── PREV / NEXT ── */
     .topic-nav {
         display: flex;
         justify-content: space-between;
-        gap: 16px;
+        gap: 12px;
         margin-top: 60px;
-        padding-top: 32px;
-        border-top: 1px solid var(--border);
+        padding-top: 28px;
+        border-top: 0.5px solid var(--border);
         flex-wrap: wrap;
     }
 
@@ -577,21 +636,21 @@
         display: flex;
         align-items: center;
         gap: 12px;
-        padding: 14px 20px;
+        padding: 14px 18px;
         background: var(--bg);
-        border: 1px solid var(--border);
-        border-radius: 14px;
+        border: 0.5px solid var(--border);
+        border-radius: 4px;
         text-decoration: none;
         color: var(--text-primary);
         flex: 1;
-        min-width: 180px;
-        max-width: 320px;
-        transition: all 0.3s ease;
+        min-width: 160px;
+        max-width: 300px;
+        transition: border-color 0.15s, background 0.15s;
     }
 
     .topic-nav-btn:hover {
-        border-color: var(--primary-color);
-        box-shadow: 0 6px 20px rgba(230, 126, 34, 0.1);
+        border-color: var(--text-secondary);
+        background: var(--bg-secondary);
         color: var(--text-primary);
     }
 
@@ -602,27 +661,31 @@
     }
 
     .nav-btn-icon {
-        color: var(--primary-color);
-        font-size: 0.75rem;
+        font-size: 11px;
+        color: var(--text-secondary);
         flex-shrink: 0;
+        opacity: 0.5;
     }
 
     .nav-btn-label {
-        font-size: 0.68rem;
-        font-weight: 700;
+        font-family: var(--font-mono);
+        font-size: 10px;
         color: var(--text-secondary);
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: 0.05em;
+        opacity: 0.5;
+        margin-bottom: 3px;
     }
 
     .nav-btn-title {
-        font-size: 0.85rem;
-        font-weight: 600;
+        font-size: 13px;
+        font-weight: 500;
         line-height: 1.3;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         max-width: 200px;
+        letter-spacing: -0.01em;
     }
 </style>
 {% endblock %}
@@ -632,7 +695,7 @@
 
 <div class="doc-layout">
 
-    <!-- Sidebar overlay (mobile) -->
+    <!-- sidebar overlay (mobile) -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <!-- SIDEBAR -->
@@ -642,91 +705,11 @@
             <span class="sidebar-coll-title">{{ collection.title }}</span>
         </a>
 
-
-
-        <style>
-            .create-btn {
-                display: inline-flex;
-                align-items: center;
-                gap: 6px;
-                background: var(--primary-tint);
-                color: var(--primary-color);
-                font-size: 0.7rem;
-                font-weight: 400;
-                padding: 7px 10px;
-                border-radius: 10px;
-                text-decoration: none;
-                border: 1px solid rgba(230, 126, 34, 0.2);
-                transition: all 0.25s ease;
-                text-transform: capitalize;
-            }
-
-            .create-btn:hover {
-                background: var(--primary-color);
-                color: #fff;
-                border-color: var(--primary-color);
-            }
-
-            .sidebar-group-header {
-                padding: 16px 4px 4px;
-                list-style: none;
-            }
-
-            /* Add a subtle top border for visual separation, skip on first group */
-            .sidebar-group-header+.sidebar-group-header,
-            li+.sidebar-group-header {
-                margin-top: 4px;
-            }
-
-            .group-badge {
-                font-size: 0.68rem;
-                font-weight: 700;
-                text-transform: uppercase;
-                letter-spacing: 0.1em;
-                padding: 3px 10px;
-                border-radius: 999px;
-                color: #fff;
-            }
-
-            .group-color-1 {
-                background-color: #6366f1;
-            }
-
-            .group-color-2 {
-                background-color: #f59e0b;
-            }
-
-            .group-color-3 {
-                background-color: #10b981;
-            }
-
-            .group-color-4 {
-                background-color: #ef4444;
-            }
-
-            .group-color-5 {
-                background-color: #3b82f6;
-            }
-
-            .group-color-6 {
-                background-color: #8b5cf6;
-            }
-
-            .group-color-7 {
-                background-color: #ec4899;
-            }
-
-            .group-color-8 {
-                background-color: #14b8a6;
-            }
-        </style>
-
-        <div class="sidebar-section-label d-flex justify-content-between align-items-center">
-            <div>Topics</div>
-
+        <div class="sidebar-section-label">
+            <span>topics</span>
             {% if request.user.is_superuser %}
             <a href="{% url 'documentation_create' %}" class="create-btn">
-                <i class="fas fa-plus"></i> New Topic
+                <i class="fas fa-plus"></i> new
             </a>
             {% endif %}
         </div>
@@ -736,44 +719,13 @@
 
             {% if group.group_name %}
             <li class="sidebar-group-header">
-                <span class="group-badge group-color-{{ forloop.counter }}">
-                    {{ group.group_name }}
-                </span>
+                <span class="group-badge">{{ group.group_name }}</span>
             </li>
             {% else %}
             <li class="sidebar-group-divider">
-                <span>General</span> <!-- or just remove the span for a plain line -->
+                <span>general</span>
             </li>
             {% endif %}
-
-            <style>
-                .sidebar-group-divider {
-                    list-style: none;
-                    padding: 14px 4px 4px;
-                    display: flex;
-                    align-items: center;
-                    gap: 8px;
-                    color: var(--text-muted, #aaa);
-                    font-size: 0.68rem;
-                    font-weight: 700;
-                    text-transform: uppercase;
-                    letter-spacing: 0.1em;
-                }
-
-                /* the line */
-                .sidebar-group-divider::before {
-                    content: '';
-                    flex: 1;
-                    height: 1px;
-                    background: var(--border-color, #e5e7eb);
-                }
-
-                /* if you kept the <span> label, add a line after too */
-                .sidebar-group-divider span::after {
-                    content: '';
-                    display: block;
-                }
-            </style>
 
             {% for t in group.topics %}
             <li>
@@ -792,47 +744,49 @@
     <!-- MAIN -->
     <main class="doc-main">
 
-        <!-- Breadcrumb -->
+        <!-- breadcrumb -->
         <nav class="doc-breadcrumb" aria-label="breadcrumb">
-            <a href="/">Home</a>
+            <a href="/">home</a>
             <i class="fas fa-chevron-right sep"></i>
             <a href="{% url 'collection_detail' collection.slug %}">{{ collection.title }}</a>
             <i class="fas fa-chevron-right sep"></i>
             <span class="current">{{ topic.title }}</span>
         </nav>
 
-        <!-- Topic Header -->
+        <!-- topic header -->
         <div class="topic-header">
             <h1>{{ topic.title }}</h1>
             <div class="topic-meta">
                 <div class="topic-meta-left">
                     <div class="author-chip">
                         <img src="{% static 'doc/images/dp.png' %}" alt="Author">
-                        <span>Faysal Hassan Torjo</span>
+                        <span>faysal hassan torjo</span>
                     </div>
-                    <span class="meta-tag"><i class="fas fa-clock"></i>
-                        Updated {{ topic.documentation.updated_at|date:"F d, Y" }}</span>
+                    <span class="meta-tag">
+                        <i class="fas fa-clock"></i>
+                        updated {{ topic.documentation.updated_at|date:"F d, Y" }}
+                    </span>
                 </div>
                 {% if user.is_superuser %}
                 <a href="{% url 'documentation_update' topic.documentation.id %}" class="edit-btn">
-                    <i class="fas fa-pen"></i> Edit
+                    <i class="fas fa-pen"></i> edit
                 </a>
                 {% endif %}
             </div>
         </div>
 
-        <!-- Documentation Content -->
+        <!-- documentation content -->
         <div class="documentation-content">
             {{ topic.documentation.content|safe }}
         </div>
 
-        <!-- Prev / Next -->
+        <!-- prev / next -->
         <div class="topic-nav">
             {% if prev_topic %}
             <a href="{% url 'topic_detail' prev_topic.id %}" class="topic-nav-btn prev">
                 <i class="fas fa-arrow-left nav-btn-icon"></i>
                 <div>
-                    <div class="nav-btn-label">Previous</div>
+                    <div class="nav-btn-label">previous</div>
                     <div class="nav-btn-title">{{ prev_topic.title }}</div>
                 </div>
             </a>
@@ -840,7 +794,7 @@
             {% if next_topic %}
             <a href="{% url 'topic_detail' next_topic.id %}" class="topic-nav-btn next">
                 <div>
-                    <div class="nav-btn-label">Next</div>
+                    <div class="nav-btn-label">next</div>
                     <div class="nav-btn-title">{{ next_topic.title }}</div>
                 </div>
                 <i class="fas fa-arrow-right nav-btn-icon"></i>
@@ -851,22 +805,21 @@
     </main>
 </div>
 
-<!-- Floating menu button (mobile) -->
+<!-- floating menu (mobile) -->
 <button class="floating-menu-btn" id="menuToggle" aria-label="Toggle sidebar">
     <i class="fas fa-bars"></i>
 </button>
 
-<!-- Image lightbox -->
+<!-- lightbox -->
 <div id="image_preview"></div>
 
-<!-- highlight.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 <script>hljs.highlightAll();</script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
 
-        /* ── Sidebar toggle (mobile) ── */
+        /* ── sidebar toggle (mobile) ── */
         const sidebar = document.getElementById('docSidebar');
         const overlay = document.getElementById('sidebarOverlay');
         const menuBtn = document.getElementById('menuToggle');
@@ -876,17 +829,15 @@
             overlay.classList.add('active');
             menuBtn.innerHTML = '<i class="fas fa-times"></i>';
         }
-
         function closeSidebar() {
             sidebar.classList.remove('open');
             overlay.classList.remove('active');
             menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
         }
-
         menuBtn.addEventListener('click', () => sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
         overlay.addEventListener('click', closeSidebar);
 
-        /* ── Code copy buttons ── */
+        /* ── code copy buttons ── */
         document.querySelectorAll('pre code').forEach(block => {
             const pre = block.parentNode;
             const wrapper = document.createElement('div');
@@ -895,20 +846,20 @@
             wrapper.appendChild(pre);
 
             const btn = document.createElement('button');
-            btn.innerText = 'Copy';
+            btn.innerText = 'copy';
             btn.classList.add('copy-btn');
             wrapper.appendChild(btn);
 
             btn.addEventListener('click', () => {
                 navigator.clipboard.writeText(block.innerText).then(() => {
-                    btn.innerText = 'Copied!';
+                    btn.innerText = 'copied';
                     btn.classList.add('copied');
-                    setTimeout(() => { btn.innerText = 'Copy'; btn.classList.remove('copied'); }, 1500);
-                }).catch(() => alert('Copy failed'));
+                    setTimeout(() => { btn.innerText = 'copy'; btn.classList.remove('copied'); }, 1500);
+                }).catch(() => alert('copy failed'));
             });
         });
 
-        /* ── Image lightbox ── */
+        /* ── image lightbox ── */
         const lightbox = document.getElementById('image_preview');
         document.querySelectorAll('.documentation-content img').forEach(img => {
             img.addEventListener('click', () => {
@@ -918,7 +869,7 @@
         });
         lightbox.addEventListener('click', () => lightbox.classList.remove('active'));
 
-        /* ── Scroll active sidebar item into view ── */
+        /* ── scroll active sidebar item into view ── */
         const activeLink = document.querySelector('.sidebar-nav-link.active');
         if (activeLink) activeLink.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 

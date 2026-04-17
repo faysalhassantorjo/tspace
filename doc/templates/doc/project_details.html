@@ -4,452 +4,346 @@
 
 {% block content %}
 <style>
-    /* 🌈 Modern Polished Portfolio Styling */
+    :root {
+        --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+    }
 
-
-    /* Base Setup */
     body {
-        background: var(--bg);
-        color: var(--text-primary);
         scroll-behavior: smooth;
     }
 
-
-
-    /* 🖼️ Project Thumbnail */
-    .project-thumbnail {
-        max-width: 1050px;
-        margin: auto;
-        border-radius: var(--radius);
-        overflow: hidden;
-        box-shadow: var(--shadow);
-        transform: translateY(20px);
-        transition: transform 0.4s ease, box-shadow 0.4s ease;
-    }
-
-    .project-thumbnail:hover {
-        transform: translateY(10px);
-        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
-    }
-
-    .project-thumbnail img {
+    /* ── HERO BANNER ── */
+    .prj-banner {
         width: 100%;
-        height: 450px;
-        object-fit: cover;
-        border-radius: var(--radius);
-    }
-
-    /* ⚙️ Meta Info */
-    .project-meta {
-        max-width: 1000px;
-        margin: 2.5rem auto;
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        color: var(--muted);
-        font-size: 0.96rem;
-        border-bottom: 1px solid #e5e7eb;
-        padding-bottom: 1rem;
-        opacity: 0.95;
-    }
-
-    .project-meta div {
-        margin: 0.3rem 0;
-    }
-
-    /* 🧠 Tech Stack Section */
-    .tech-section {
-        max-width: 1000px;
-        margin: 3.5rem auto;
-        text-align: center;
-    }
-
-    .tech-section h3 {
-        font-weight: 700;
-        color: var(--text-primary);
-        margin-bottom: 2rem;
+        height: 380px;
         position: relative;
+        overflow: hidden;
+        border-bottom: 0.5px solid var(--border);
     }
 
-    .description h3 {
-        font-weight: 700;
-        color: var(--primary);
-        margin-bottom: 1.5rem;
+    .prj-banner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: grayscale(20%);
+        transition: transform 0.6s ease, filter 0.4s ease;
     }
 
-    .tech-section h3::after {
-        content: "";
+    .prj-banner:hover img {
+        transform: scale(1.03);
+        filter: grayscale(0%);
+    }
+
+    .prj-banner-overlay {
         position: absolute;
-        width: 70px;
-        height: 3px;
-        background: var(--text-primary);
-        bottom: -10px;
-        left: 50%;
-        transform: translateX(-50%);
-        border-radius: 2px;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.2) 60%, transparent 100%);
+        display: flex;
+        align-items: flex-end;
+        padding: 36px 40px;
+    }
+
+    .prj-banner-title {
+        font-size: clamp(1.8rem, 5vw, 3rem);
+        font-weight: 500;
+        letter-spacing: -0.03em;
+        color: #fff;
+        line-height: 1.1;
+    }
+
+    .prj-banner-badge {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.6);
+        background: rgba(0, 0, 0, 0.4);
+        border: 0.5px solid rgba(255, 255, 255, 0.15);
+        padding: 4px 10px;
+        border-radius: 3px;
+        letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 768px) {
+        .prj-banner {
+            height: 220px;
+        }
+
+        .prj-banner-overlay {
+            padding: 20px;
+        }
+    }
+
+    /* ── LAYOUT WRAPPER ── */
+    .prj-layout {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 0 24px 80px;
+    }
+
+    /* ── META BAR ── */
+    .prj-meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        padding: 20px 0;
+        border-bottom: 0.5px solid var(--border);
+        margin-bottom: 48px;
+    }
+
+    .prj-meta-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--text-secondary);
+        border: 0.5px solid var(--border);
+        border-radius: 3px;
+        padding: 4px 10px;
+        letter-spacing: 0.03em;
+        opacity: 0.7;
+    }
+
+    .prj-meta-chip i {
+        font-size: 9px;
+    }
+
+    .prj-meta-chip.featured {
+        color: #f59e0b;
+        border-color: rgba(245, 158, 11, 0.3);
+        background: rgba(245, 158, 11, 0.06);
+        opacity: 1;
+    }
+
+    /* ── SECTION HEADER ── */
+    .sec-label {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--text-secondary);
+        opacity: 0.5;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .sec-label::before {
+        content: '// ';
+        opacity: 0.5;
+    }
+
+    .sec-label::after {
+        content: '';
+        flex: 1;
+        height: 0.5px;
+        background: var(--border);
+    }
+
+    /* ── TECH STACK ── */
+    .tech-section {
+        margin: 0 0 56px;
     }
 
     .tech-grid {
         display: flex;
         flex-wrap: wrap;
-        justify-content: center;
+        gap: 8px;
     }
 
     .tech-item {
-        background: var(--bg-secondary);
-        padding: 1rem 1.3rem;
-        width: 130px;
-        transition: all 0.3s ease;
-        border: 1px solid #e5e7eb79;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border: 0.5px solid var(--border);
+        border-radius: 3px;
+        padding: 8px 14px;
+        background: var(--bg);
+        transition: border-color 0.15s, background 0.15s;
+        cursor: default;
     }
 
     .tech-item:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 8px 20px rgba(99, 102, 241, 0.15);
+        border-color: var(--text-secondary);
+        background: var(--bg-secondary);
     }
 
     .tech-item img {
-        width: 42px;
-        height: 42px;
-        margin-bottom: 0.6rem;
+        width: 16px;
+        height: 16px;
+        object-fit: contain;
+        filter: grayscale(30%);
+        transition: filter 0.15s;
     }
 
-    /* 📝 Description */
-
-
-
-
-    /* 🖼️ Gallery */
-    .project-gallery {
-        max-width: 1000px;
-        margin: 4rem auto;
-        text-align: center;
+    .tech-item:hover img {
+        filter: grayscale(0%);
     }
 
-    .project-gallery h3 {
-        font-weight: 700;
+    .tech-item span {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--text-secondary);
+        letter-spacing: 0.02em;
+    }
+
+    /* ── DESCRIPTION ── */
+    .description-section {
+        margin: 0 0 56px;
+    }
+
+    .description-content {
+        font-size: 15px;
+        line-height: 1.8;
         color: var(--text-primary);
-        margin-bottom: 1.5rem;
+    }
+
+    .description-content h3 {
+        font-size: 1.1rem;
+        font-weight: 500;
+        letter-spacing: -0.02em;
+        color: var(--text-primary);
+        margin-top: 2em;
+        margin-bottom: 0.6em;
+    }
+
+    .description-content h3:first-child {
+        margin-top: 0;
+    }
+
+    .description-content p {
+        margin-bottom: 1.2em;
+    }
+
+    .description-content a {
+        color: var(--text-primary);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        opacity: 0.8;
+    }
+
+    .description-content a:hover {
+        opacity: 1;
+    }
+
+    .description-content ul,
+    .description-content ol {
+        padding-left: 1.5em;
+        margin-bottom: 1.2em;
+    }
+
+    .description-content li {
+        margin-bottom: 6px;
+    }
+
+    .description-content blockquote {
+        margin: 1.5rem 0;
+        padding: 12px 18px;
+        border-left: 2px solid var(--border);
+        color: var(--text-secondary);
+        font-style: italic;
+    }
+
+    .description-content blockquote p {
+        margin: 0;
+    }
+
+    .description-content code {
+        font-family: var(--font-mono);
+        background: var(--bg-secondary);
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-size: 13px;
+        border: 0.5px solid var(--border);
+    }
+
+    /* ── GALLERY ── */
+    .gallery-section {
+        margin: 0 0 56px;
     }
 
     .carousel img {
-        height: 440px;
+        height: 420px;
         object-fit: cover;
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
+        border-radius: 4px;
+        border: 0.5px solid var(--border);
+        cursor: zoom-in;
     }
 
-    /* 🎥 Video */
-    .video-section {
-        max-width: 1000px;
-        margin: 4rem auto;
+    .carousel-caption {
+        position: absolute;
+        bottom: 14px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.6);
+        padding: 5px 14px;
+        border-radius: 3px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.7);
+        width: auto;
+        max-width: 70%;
         text-align: center;
+        opacity: 0;
+        transition: opacity 0.4s ease;
     }
 
-    .video-section h3 {
-        color: var(--text);
-        margin-bottom: 1.5rem;
-        font-weight: 700;
+    .carousel-caption p {
+        margin: 0;
+    }
+
+    .carousel-item.active .carousel-caption {
+        opacity: 1;
+    }
+
+    /* lightbox */
+    .display_image {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.88);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1050;
+    }
+
+    .display_image img {
+        max-width: 90%;
+        max-height: 88%;
+        border-radius: 4px;
+        border: 0.5px solid rgba(255, 255, 255, 0.1);
+        cursor: zoom-out;
+    }
+
+    @media (max-width: 768px) {
+        .carousel img {
+            height: 220px;
+        }
+    }
+
+    /* ── VIDEO ── */
+    .video-section {
+        margin: 0 0 56px;
     }
 
     .video-section iframe {
         width: 100%;
-        height: 480px;
-        border: none;
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
+        height: 460px;
+        border: 0.5px solid var(--border);
+        border-radius: 4px;
     }
 
-    /* 🔗 Project Links */
-
-
-
-
-    /* ✨ Animations */
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(15px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes fadeInDown {
-        from {
-            opacity: 0;
-            transform: translateY(-20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* 📱 Responsive Design */
     @media (max-width: 768px) {
-   
-        .project-thumbnail{
-            padding: 10px;
-        }
-
-        .project-thumbnail img,
-        .carousel img,
         .video-section iframe {
-            height: 250px;
-        }
-
-        .project-description {
-            padding: 1.5rem;
-        }
-
-        .tech-item {
-            width: 100px;
-            padding: 0.8rem;
+            height: 240px;
         }
     }
-</style>
-<!-- 🌟 Hero -->
-<section class="hero">
-</section>
 
-<!-- 🖼️ Thumbnail -->
-
-<style>
-    .project-thumbnail {
-        position: relative;
-        width: 100%;
-        height: 420px;
-        overflow: hidden;
-        border-radius: 16px;
-    }
-
-    .project-thumbnail img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-    }
-
-    .project-thumbnail:hover img {
-        transform: scale(1.05);
-    }
-
-    /* Overlay for blur effect */
-    .project-thumbnail .overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: rgba(0, 0, 0, 0.3);
-        /* semi-transparent dark layer */
-        backdrop-filter: blur(6px);
-        /* blur the image behind */
-        -webkit-backdrop-filter: blur(6px);
-    }
-
-    .project-title {
-        color: var(--primary) !important;
-        font-size: 2.8rem;
-        font-weight: 800;
-        text-align: center;
-        padding: 0 1rem;
-        text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    }
-
-    @media (max-width: 768px) {
-        .project-thumbnail {
-            height: 250px;
-        }
-
-        .project-title {
-            font-size: 1.8rem;
-        }
-    }
-</style>
-<div class="project-thumbnail">
-    <img src="{{ project.thumbnail.url }}" alt="{{ project.title }}">
-    <div class="overlay">
-        <h1 class="project_title fw-bold" style="color: #ffffffb1;">{{ project.title }}</h1>
-    </div>
-</div>
-
-
-<!-- ⚙️ Meta Info -->
-<div class="project-meta">
-    <div><strong>Created:</strong> {{ project.created_at|date:"F d, Y" }}</div>
-    <div><strong>Updated:</strong> {{ project.updated_at|date:"F d, Y" }}</div>
-    {% if project.is_featured %}
-    <div><span style="color:#f59e0b;">🌟 Featured Project</span></div>
-    {% endif %}
-</div>
-
-<!-- 🧠 Technologies -->
-{% if project.technology.exists %}
-<section class="tech-section">
-    <h3>Technologies Used</h3>
-    <div class="tech-grid">
-        {% for tech in project.technology.all %}
-        <div class="tech-item">
-            <img src="https://cdn.simpleicons.org/{{ tech.icon }}" alt="{{ tech.name }}">
-            <div>{{ tech.name }}</div>
-        </div>
-        {% endfor %}
-    </div>
-</section>
-{% endif %}
-
-<!-- 📝 Description -->
-
-<style>
-    .description{
-    max-width: 900px;
-    margin: 3rem auto;
-    line-height: 1.8;
-    font-size: 1rem;
-    color: var(--text);
-}
-</style>
-
-<section class="container description">
-    <h3 class="text-center">Description</h3>
-    <div>
-        {{ project.description|safe }}
-    </div>
-</section>
-<!-- 🖼️ Gallery -->
-{% if project.images.exists %}
-<section class="project-gallery">
-    <h3>Screenshots</h3>
-    <div id="projectCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <style>
-                /* Carousel Captions */
-                .carousel-caption {
-                    position: absolute;
-                    bottom: 20px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    background: rgba(0, 0, 0, 0.55);
-                    backdrop-filter: blur(5px);
-                    padding: 0.5rem 1rem;
-                    border-radius: 10px;
-                    color: #fff;
-                    font-size: 1.2rem;
-                    width: 60%;
-                    text-align: center;
-                    line-height: 1.4;
-                    transition: all 0.3s ease;
-                }
-
-                .carousel-caption p {
-                    margin: 0;
-                }
-
-                /* Optional: fade in captions */
-                .carousel-item .carousel-caption {
-                    opacity: 0;
-                    transform: translateY(15px) translateX(-50%);
-                    transition: opacity 0.5s ease, transform 0.5s ease;
-                }
-
-                .carousel-item.active .carousel-caption {
-                    opacity: 1;
-                    transform: translateY(0) translateX(-50%);
-                }
-            </style>
-            {% for image in project.images.all %}
-            <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                <img src="{{ image.image.url }}" class="d-block w-100 project-image" alt="{{ image.caption }}">
-                {% if image.caption %}
-                <div class="carousel-caption">
-                    <p style="color: var(--primary);">{{ image.caption }}</p>
-                </div>
-                {% endif %}
-            </div>
-            {% endfor %}
-            <style>
-                .display_image {
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: rgba(0, 0, 0, 0.8);
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    z-index: 1050;
-                }
-
-                .display_image img {
-                    max-width: 90%;
-                    max-height: 90%;
-                    border-radius: 12px;
-                    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-                    cursor: zoom-out;
-                }
-            </style>
-
-
-            <script>
-                // JavaScript to handle image click and display in larger view
-                document.addEventListener('DOMContentLoaded', function () {
-                    const images = document.querySelectorAll('.project-image');
-                    const displayImageContainer = document.querySelector('.display_image');
-                    const displayImage = displayImageContainer.querySelector('img');
-
-                    images.forEach(img => {
-                        img.addEventListener('click', function () {
-                            displayImage.src = this.src;
-                            displayImageContainer.classList.remove('d-none');
-
-                        });
-                    });
-
-                    displayImageContainer.addEventListener('click', function () {
-                        this.classList.add('d-none');
-                    });
-                });
-            </script>
-
-
-        </div>
-
-        {% if project.images.count > 1 %}
-        <button class="carousel-control-prev" type="button" data-bs-target="#projectCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#projectCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </button>
-        {% endif %}
-    </div>
-    <div class="display_image d-none">
-        <img src="" alt="">
-    </div>
-</section>
-{% endif %}
-
-<!-- 🎥 Video -->
-{% if project.demo_video_url %}
-<section class="video-section">
-    <h3>Project Demo</h3>
-    <iframe src="{{ project.demo_video_url }}" allowfullscreen></iframe>
-</section>
-{% endif %}
-
-<!-- floating Links -->
-
-<style>
+    /* ── FLOATING LINKS ── */
     .project-links {
         position: fixed;
         left: 18px;
@@ -458,71 +352,178 @@
         z-index: 2000;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        padding: 0.8rem;
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border-radius: 12px;
+        gap: 6px;
+        padding: 10px;
+        background: var(--bg);
+        border: 0.5px solid var(--border);
+        border-radius: 4px;
     }
 
     .project-links a {
+        display: flex;
         align-items: center;
-        justify-content: center;
-        background: var(--bg-secondary);
-        color: var(--text-primary);
+        gap: 7px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--text-secondary);
         text-decoration: none;
-        padding: 8px;
-        font-weight: 600;
-        margin: 0.6rem;
-        transition: all 0.3s ease;
-        border-radius: 12px;
-
+        padding: 7px 12px;
+        border: 0.5px solid var(--border);
+        border-radius: 3px;
+        letter-spacing: 0.02em;
+        transition: color 0.15s, border-color 0.15s, background 0.15s;
+        white-space: nowrap;
     }
-
 
     .project-links a:hover {
-        transform: translateY(-4px);
-        opacity: 0.92;
+        color: var(--text-primary);
+        border-color: var(--text-secondary);
+        background: var(--bg-secondary);
     }
 
-    /* move to bottom and row layout on small screens */
+    .project-links a i {
+        font-size: 10px;
+        opacity: 0.6;
+    }
+
     @media (max-width: 640px) {
-        .floating-mid {
+        .project-links {
             top: auto;
-            bottom: 18px;
             left: 50%;
             right: auto;
+            bottom: 16px;
             transform: translateX(-50%);
             flex-direction: row;
-            padding: 0.5rem;
-            font-size: 12px !important;
-            width: 80%;
-            justify-content: space-between;
-        }
-
-        .floating-mid a {
-            padding: 0.5rem 0.9rem;
+            width: auto;
         }
     }
 </style>
 
-<section class="project-links floating-mid">
+<!-- ── HERO BANNER ── -->
+<div class="prj-banner">
+    <img src="{{ project.thumbnail.url }}" alt="{{ project.title }}">
+    <span class="prj-banner-badge">PRJ &mdash; {{ project.created_at|date:"Y" }}</span>
+    <div class="prj-banner-overlay">
+        <h1 class="prj-banner-title">{{ project.title }}</h1>
+    </div>
+</div>
+
+<div class="prj-layout">
+
+    <!-- ── META BAR ── -->
+    <div class="prj-meta">
+        <span class="prj-meta-chip"><i class="fas fa-calendar-plus"></i>
+            created {{ project.created_at|date:"F d, Y" }}</span>
+        <span class="prj-meta-chip"><i class="fas fa-rotate-right"></i>
+            updated {{ project.updated_at|date:"F d, Y" }}</span>
+        {% if project.is_featured %}
+        <span class="prj-meta-chip featured"><i class="fas fa-star"></i>
+            featured project</span>
+        {% endif %}
+    </div>
+
+    <!-- ── TECHNOLOGIES ── -->
+    {% if project.technology.exists %}
+    <section class="tech-section">
+        <div class="sec-label">technologies used</div>
+        <div class="tech-grid">
+            {% for tech in project.technology.all %}
+            <div class="tech-item">
+                <img src="https://cdn.simpleicons.org/{{ tech.icon }}" alt="{{ tech.name }}">
+                <span>{{ tech.name }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- ── DESCRIPTION ── -->
+    <section class="description-section">
+        <div class="sec-label">description</div>
+        <div class="description-content">
+            {{ project.description|safe }}
+        </div>
+    </section>
+
+    <!-- ── GALLERY ── -->
+    {% if project.images.exists %}
+    <section class="gallery-section">
+        <div class="sec-label">screenshots</div>
+        <div id="projectCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for image in project.images.all %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <img src="{{ image.image.url }}" class="d-block w-100 project-image" alt="{{ image.caption }}">
+                    {% if image.caption %}
+                    <div class="carousel-caption">
+                        <p>{{ image.caption }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% if project.images.count > 1 %}
+            <button class="carousel-control-prev" type="button" data-bs-target="#projectCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#projectCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+            {% endif %}
+        </div>
+        <div class="display_image d-none">
+            <img src="" alt="">
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- ── VIDEO ── -->
+    {% if project.demo_video_url %}
+    <section class="video-section">
+        <div class="sec-label">project demo</div>
+        <iframe src="{{ project.demo_video_url }}" allowfullscreen></iframe>
+    </section>
+    {% endif %}
+
+</div>
+
+<!-- ── FLOATING LINKS ── -->
+<aside class="project-links floating-mid">
     {% if project.live_url %}
     <a href="{{ project.live_url }}" target="_blank">
-        <i class="fas fa-external-link-alt"></i> Live Demo
+        <i class="fas fa-external-link-alt"></i> live demo
     </a>
     {% endif %}
     {% if project.github_url %}
-    <a href="{{ project.github_url }}" target="_blank" class="github">
-        <i class="fab fa-github"></i> GitHub
+    <a href="{{ project.github_url }}" target="_blank">
+        <i class="fab fa-github"></i> github
     </a>
     {% endif %}
     {% if project.demo_video_url %}
-    <a href="{{ project.demo_video_url }}" target="_blank" class="video">
-        <i class="fab fa-youtube"></i> Watch Video
+    <a href="{{ project.demo_video_url }}" target="_blank">
+        <i class="fab fa-youtube"></i> watch video
     </a>
     {% endif %}
-</section>
+</aside>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const images = document.querySelectorAll('.project-image');
+        const displayImageContainer = document.querySelector('.display_image');
+        if (!displayImageContainer) return;
+        const displayImage = displayImageContainer.querySelector('img');
+
+        images.forEach(img => {
+            img.addEventListener('click', function () {
+                displayImage.src = this.src;
+                displayImageContainer.classList.remove('d-none');
+            });
+        });
+
+        displayImageContainer.addEventListener('click', function () {
+            this.classList.add('d-none');
+        });
+    });
+</script>
 
 {% endblock %}
