@@ -5,71 +5,6 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
 <style>
-    /* ════════════════════════════════
-       HERO
-    ════════════════════════════════ */
-    .hero {
-        padding: 5rem 0 4rem;
-        border-bottom: 1px solid var(--border);
-    }
-
-    .hero-eyebrow {
-        font-family: var(--mono);
-        font-size: 0.72rem;
-        font-weight: 500;
-        color: var(--accent);
-        text-transform: uppercase;
-        letter-spacing: 0.12em;
-        margin-bottom: 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: 0.6rem;
-    }
-
-    .hero-eyebrow::before {
-        content: '';
-        display: inline-block;
-        width: 20px;
-        height: 1px;
-        background: var(--accent);
-    }
-
-    .hero-name {
-        font-family: 'Fjalla One', sans-serif;
-        font-size: clamp(2.8rem, 7vw, 5rem);
-        font-weight: 600;
-        line-height: 1.05;
-        letter-spacing: -2px;
-        color: var(--text-primary);
-        margin: 0 0 1.25rem;
-    }
-
-    .hero-name .dim {
-        color: var(--text-muted);
-        font-weight: 300;
-    }
-
-    .hero-name .acc {
-        color: var(--accent);
-    }
-
-    .hero-bio {
-        font-size: 0.95rem;
-        color: var(--text-secondary);
-        max-width: 440px;
-        line-height: 1.75;
-        margin-bottom: 2.5rem;
-    }
-
-    .hero-bio code {
-        font-family: var(--mono);
-        font-size: 0.82rem;
-        background: var(--bg-secondary);
-        border: 1px solid var(--border);
-        padding: 1px 5px;
-        border-radius: 3px;
-        color: var(--accent);
-    }
 
     /* Nav links */
     .hero-links {
@@ -294,7 +229,7 @@
     ════════════════════════════════ */
     .prj-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
         gap: 1px;
         border: 1px solid var(--border);
         border-radius: 6px;
@@ -466,48 +401,128 @@
 {% block content %}
 {% load static %}
 
+<style>
+    /* ════════════════════════════════
+   HERO (FULL-WIDTH CENTERED)
+════════════════════════════════ */
+.hero {
+    padding: 7rem 0 6rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    width: 100%;
+    text-align: center; /* Centers inline/text elements */
+}
+
+.hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    display: inline-flex; /* Changed from flex to inline-flex so it centers nicely */
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.hero-eyebrow i {
+    color: #3776ab; /* Python Blue */
+    font-size: 1.25rem;
+}
+
+.hero-name {
+    font-family: 'Fjalla One', sans-serif;
+    font-size: clamp(3.2rem, 8.5vw, 6.5rem);
+    font-weight: 600;
+    line-height: 1.02;
+    letter-spacing: -2px;
+    color: var(--text-primary);
+    margin: 0 0 1.25rem;
+}
+
+.hero-name .dim {
+    color: var(--text-muted);
+    font-weight: 300;
+}
+
+.hero-name .acc {
+    color: var(--accent);
+}
+
+.hero-role {
+    font-family: var(--mono);
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
+    color: var(--text-primary);
+    margin: 0 0 1.5rem;
+    font-weight: 400;
+}
+
+.hero-bio {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin: 0 auto 2.75rem; /* 'auto' left/right margins center the block */
+    max-width: 850px;
+}
+
+.hero-bio code {
+    font-family: var(--mono);
+    font-size: 0.92rem;
+    color: var(--accent);
+    background: var(--bg-secondary);
+    padding: 2px 7px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+}
+
+.hero-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center-aligns the action buttons */
+    gap: 0.6rem;
+}
+
+@media (max-width: 768px) {
+    .hero { 
+        padding: 4.5rem 0 3.5rem; 
+    }
+}
+</style>
+
 <!-- ── Hero ── -->
 <section class="hero">
-    <div class="container">
-        <div class="row flex-row-reverse align-items-start">
-
-            <div class="col-lg-4 col-md-6 col-sm-6 hero-portrait-wrap">
-                <img src="{% static 'doc/images/dp2.jpg' %}" alt="Faysal Hassan Torjo" class="hero-portrait">
-            </div>
-
-            <div class="col-lg-8 col-md-6 col-sm-6" style="margin: auto;">
-                <p class="hero-eyebrow">Software Documentation &amp; Architecture</p>
-
-                <h1 class="hero-name">
-                    Faysal
-                    <span class="dim">Hassan</span>
-                    <span class="acc">Torjo</span>
-                </h1>
-
-                <p class="hero-bio">
-                    Designing high-performance <code>backend</code> systems and documenting the path to
-                    scalable architecture. This is my personal vault of logic,
-                    patterns, and production knowledge.
-                </p>
-
-                <div class="hero-links">
-                    <a href="#collection-list" class="hlink">
-                        <i class="fas fa-book-open"></i> Documentation
-                    </a>
-                    <a href="#project-list" class="hlink">
-                        <i class="fas fa-terminal"></i> Live Projects
-                    </a>
-                    <a href="#skills" class="hlink">
-                        <i class="fas fa-layer-group"></i> Tech Stack
-                    </a>
-                    <a href="https://docs.google.com/document/d/13Kw-IVmG9K1GL2rYFSaoDpfLYZiXT6uvFbILa4drZ1E/edit?usp=sharing"
-                        target="_blank" class="hlink primary">
-                        <i class="fas fa-file-pdf"></i> CV
-                    </a>
-                </div>
-            </div>
-
+    <div class="container-fluid px-4 px-md-5">
+        
+        <div class="hero-eyebrow">
+            <i class="fab fa-python"></i>
+            <code>if __name__ == "__main__":</code>
         </div>
+
+        <h1 class="hero-name">
+            Faysal <span class="dim">Hassan</span> <span class="acc">Torjo</span>
+        </h1>
+        
+        <h2 class="hero-role">&gt; Python Backend Engineer &amp; System Architect</h2>
+
+        <p class="hero-bio">
+            My personal documentation space where I document everything I learn about backend engineering, <code>Python</code> systems, and architecture.
+        </p>
+
+        <div class="hero-links">
+            <a href="#collection-list" class="hlink">
+                <i class="fas fa-book-open"></i> Documentation
+            </a>
+            <a href="#project-list" class="hlink">
+                <i class="fas fa-terminal"></i> Live Projects
+            </a>
+            <a href="#skills" class="hlink">
+                <i class="fas fa-layer-group"></i> Tech Stack
+            </a>
+            <a href="https://docs.google.com/document/d/13Kw-IVmG9K1GL2rYFSaoDpfLYZiXT6uvFbILa4drZ1E/edit?usp=sharing" target="_blank" class="hlink primary">
+                <i class="fas fa-file-pdf"></i> Resume / CV
+            </a>
+        </div>
+
     </div>
 </section>
 
@@ -554,7 +569,7 @@
                     <img src="{{ project.thumbnail.url }}" alt="{{ project.title }}">
                 </div>
                 <div class="prj-body">
-                    <span class="prj-index">PRJ-{{ forloop.counter|stringformat:"02d" }}</span>
+                    <!-- <span class="prj-index">PRJ-{{ forloop.counter|stringformat:"02d" }}</span> -->
                     <h3 class="prj-title">{{ project.title }}</h3>
                     <p class="prj-desc">{{ project.short_description|default:"Detailed technical documentation." }}</p>
                     <div class="prj-cta">
