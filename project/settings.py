@@ -165,6 +165,7 @@ CKEDITOR_5_CONFIGS = {
             'languages': [
                 {'language': 'plaintext', 'label': 'Plain text'},
                 {'language': 'bash', 'label': 'Bash'},
+                {'language': 'json', 'label': 'Json'},
                 {'language': 'python', 'label': 'Python'},
                 {'language': 'c', 'label': 'C'},
                 {'language': 'cpp', 'label': 'C++'},

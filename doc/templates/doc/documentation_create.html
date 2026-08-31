@@ -1,86 +1,281 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'doc/base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Documentation</title>
+{% block title %}Create Documentation | Torjo Space{% endblock %}
 
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% block extra_head %}
+{{ documentation_form.media }}
+<style>
+    .editor-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 2.5rem 1rem 4rem;
+    }
 
-    <style>
-        body {
-            font-family: 'Titillium Web', sans-serif !important;
-        }
-    </style>
-    <!-- CKEditor 5 media -->
-    {{ documentation_form.media }}
-</head>
+    /* Header */
+    .editor-header {
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 1.5rem;
+        margin-bottom: 2rem;
+    }
 
-<body class="bg-light">
+    .editor-title {
+        font-family: var(--mono);
+        font-size: 1.5rem;
+        font-weight: 600;
+        letter-spacing: -0.5px;
+        color: var(--text-primary);
+        margin-bottom: 0.25rem;
+    }
 
-    <div class="container-fluid p-3" style="">
-        <div class="row justify-content-center">
-            <div class="col-lg-12">
+    .editor-subtitle {
+        font-family: var(--mono);
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+    }
 
-                <div class="card shadow-sm border-0">
-                    <div class="card-header bg-secondary text-white">
-                        <h5 class="mb-0">Create Documentation</h5>
-                    </div>
+    .editor-subtitle strong {
+        color: var(--accent);
+    }
 
-                    <div class="card-body">
+    /* Form Labels */
+    .form-label-custom {
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--text-secondary);
+        margin-bottom: 0.4rem;
+        display: block;
+    }
 
-                        <form method="post">
-                            {% csrf_token %}
+    /* ── Universal Input Styling (Ensures 100% Consistency) ── */
+    .editor-container input[type="text"],
+    .editor-container input[type="number"],
+    .editor-container input[type="email"],
+    .editor-container input[type="url"],
+    .editor-container input[type="password"],
+    .editor-container select,
+    .editor-container textarea,
+    .form-control-custom {
+        width: 100%;
+        background-color: var(--bg-secondary);
+        border: 1px solid var(--border);
+        color: var(--text-primary);
+        border-radius: 6px;
+        padding: 0.65rem 0.85rem;
+        font-family: var(--sans);
+        font-size: 0.95rem;
+        line-height: 1.5;
+        box-shadow: none !important;
+        appearance: none;
+        -webkit-appearance: none;
+        transition: background-color 0.15s ease;
+    }
 
-                            <div class="mb-3">
-                                {{ topic_form }}
-                            </div>
+    /* Select Dropdown Arrow Indicator */
+    .editor-container select {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%236b6b6b' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 0.85rem center;
+        background-size: 12px 12px;
+        padding-right: 2.5rem;
+    }
 
-                            {% for field in documentation_form %}
-                            <div class="mb-3">
-                                <label class="form-label fw-semibold">
-                                    {{ field.label }}
-                                </label>
-                                {{ field }}
-                                {% if field.errors %}
-                                <div class="text-danger small mt-1">
-                                    {{ field.errors }}
-                                </div>
-                                {% endif %}
-                            </div>
-                            {% endfor %}
+    /* ── Disable Border/Glow Highlight on Click/Focus ── */
+    .editor-container input:focus,
+    .editor-container select:focus,
+    .editor-container textarea:focus,
+    .form-control-custom:focus {
+        outline: none !important;
+        border-color: var(--border) !important; /* Keeps border color completely static */
+        box-shadow: none !important;            /* Removes glow halo */
+        background-color: var(--bg-secondary) !important;
+        color: var(--text-primary) !important;
+    }
 
-                            <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary px-4">
-                                    {% if update %}
-                                    Update
-                                    {% else %}
-                                    Create
-                                    {% endif %}
-                                </button>
-                            </div>
-                        </form>
+    /* Dark Mode Form Overrides */
+    [data-theme="dark"] .editor-container input,
+    [data-theme="dark"] .editor-container select,
+    [data-theme="dark"] .editor-container textarea {
+        background-color: var(--bg-secondary);
+        color: var(--text-primary);
+        border-color: var(--border-strong);
+    }
 
-                    </div>
-                </div>
+    [data-theme="dark"] .editor-container input:focus,
+    [data-theme="dark"] .editor-container select:focus,
+    [data-theme="dark"] .editor-container textarea:focus {
+        border-color: var(--border-strong) !important;
+    }
 
+    /* CKEditor Custom Integration & Theme Matching */
+    .ck-editor__editable {
+        min-height: 450px !important;
+        font-family: var(--sans) !important;
+        font-size: 1rem !important;
+        line-height: 1.7 !important;
+        background-color: var(--bg) !important;
+        color: var(--text-primary) !important;
+    }
+
+    [data-theme="dark"] .ck.ck-editor__main>.ck-editor__editable {
+        background-color: var(--bg-secondary) !important;
+        color: var(--text-primary) !important;
+    }
+
+    [data-theme="dark"] .ck.ck-toolbar {
+        background-color: var(--bg-secondary) !important;
+        border-color: var(--border) !important;
+    }
+
+    [data-theme="dark"] .ck.ck-button {
+        color: var(--text-primary) !important;
+    }
+
+    [data-theme="dark"] .ck.ck-button:hover {
+        background-color: var(--border) !important;
+    }
+
+    /* Buttons */
+    .btn-accent {
+        background-color: var(--accent);
+        color: #ffffff;
+        font-family: var(--mono);
+        font-size: 0.85rem;
+        font-weight: 500;
+        padding: 0.65rem 1.4rem;
+        border-radius: 6px;
+        border: 1px solid transparent;
+        transition: opacity 0.15s ease;
+    }
+
+    .btn-accent:hover {
+        opacity: 0.9;
+        color: #ffffff;
+    }
+
+    .btn-cancel {
+        background-color: transparent;
+        color: var(--text-secondary);
+        font-family: var(--mono);
+        font-size: 0.85rem;
+        font-weight: 500;
+        padding: 0.65rem 1.4rem;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .btn-cancel:hover {
+        background-color: var(--bg-secondary);
+        color: var(--text-primary);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="editor-container">
+
+    <!-- Header -->
+    <header class="editor-header">
+        {% if collection %}
+            <div class="editor-subtitle">
+                COLLECTION: <strong>{{ collection.title }}</strong>
             </div>
+        {% endif %}
+    </header>
+
+    <!-- Main Form -->
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        <!-- Topic Section -->
+        <div class="row g-3 mb-4">
+            
+            <!-- Title Field -->
+            <div class="col-lg-7 col-md-12">
+                <label for="{{ topic_form.title.id_for_label }}" class="form-label-custom">
+                    Title
+                </label>
+                {{ topic_form.title }}
+                {% if topic_form.title.errors %}
+                    <div class="text-danger small mt-1 font-monospace">
+                        {{ topic_form.title.errors|striptags }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Order Field -->
+            <div class="col-lg-2 col-6">
+                <label for="{{ topic_form.order.id_for_label }}" class="form-label-custom">
+                    Order
+                </label>
+                {{ topic_form.order }}
+                {% if topic_form.order.errors %}
+                    <div class="text-danger small mt-1 font-monospace">
+                        {{ topic_form.order.errors|striptags }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Group Field -->
+            <div class="col-lg-3 col-6">
+                <label for="{{ topic_form.group.id_for_label }}" class="form-label-custom">
+                    Group
+                </label>
+                {{ topic_form.group }}
+                {% if topic_form.group.errors %}
+                    <div class="text-danger small mt-1 font-monospace">
+                        {{ topic_form.group.errors|striptags }}
+                    </div>
+                {% endif %}
+            </div>
+
         </div>
-    </div>
+        
+        <style>
+            .ck.ck-editor__editable.ck-focused:not(.ck-editor__nested-editable) {
+            box-shadow: none;
+            border-color: #ccced1;
+            }
+        </style>
 
-    <!-- Bootstrap JS (optional) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Dynamic Content Fields -->
+        <div class="mb-4">
+            {% for field in documentation_form %}
+                <div class="mb-4">
+                    <label for="{{ field.id_for_label }}" class="form-label-custom">
+                        {{ field.label }}
+                    </label>
 
-</body>
+                    {{ field }}
 
-</html>
+                    {% if field.help_text %}
+                        <div class="form-text text-muted small mt-1" style="font-family: var(--mono); font-size: 0.75rem;">
+                            {{ field.help_text }}
+                        </div>
+                    {% endif %}
+
+                    {% if field.errors %}
+                        <div class="text-danger small mt-1 font-monospace">
+                            {{ field.errors|striptags }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Form Controls -->
+        <div class="d-flex justify-content-end align-items-center gap-2 pt-3 border-top" style="border-color: var(--border) !important;">
+            <button type="button" class="btn btn-cancel" onclick="history.back()">
+                Cancel
+            </button>
+            <button type="submit" class="btn btn-accent">
+                <i class="fa-solid fa-plus me-1"></i> Save Documentation
+            </button>
+        </div>
+
+    </form>
+</div>
+{% endblock %}

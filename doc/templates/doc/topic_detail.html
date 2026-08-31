@@ -709,7 +709,7 @@
         <div class="sidebar-section-label">
             <span>topics</span>
             {% if request.user.is_superuser %}
-            <a href="{% url 'documentation_create' %}" class="create-btn">
+            <a href="/documentation/{{collection.id}}/create" class="create-btn">
                 <i class="fas fa-plus"></i> new
             </a>
             {% endif %}

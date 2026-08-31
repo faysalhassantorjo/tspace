@@ -402,7 +402,7 @@
                 <div class="section-label fade-up">
                     <h3>course topics</h3>
                     {% if request.user.is_superuser %}
-                    <a href="{% url 'documentation_create' %}" class="create-btn">
+                    <a href="/documentation/{{ collection.id }}/create" class="create-btn">
                         <i class="fas fa-plus"></i> new topic
                     </a>
                     {% endif %}

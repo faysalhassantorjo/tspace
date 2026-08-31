@@ -44,48 +44,86 @@ def project_detail(request, slug):
 from .forms import DocumentationForm, TopicForm
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
+def documentation_create(request, collection_id):
+    collection = get_object_or_404(
+        Collection,
+        id=collection_id
+    )
 
-def documentation_create(request):
-    collection_id = request.GET.get('collection_id')
-    try:
-        collection = Collection.objects.get(id=collection_id)
-    except Collection.DoesNotExist:
-        collection = None
     if request.method == 'POST':
         documentation_form = DocumentationForm(request.POST)
         topic_form = TopicForm(request.POST)
+
         if documentation_form.is_valid() and topic_form.is_valid():
-            topic = topic_form.save()
+
+            topic = topic_form.save(commit=False)
+            topic.collection = collection
+            topic.save()
+
             documentation = documentation_form.save(commit=False)
             documentation.topic = topic
             documentation.save()
+
             return redirect('topic_detail', pk=topic.pk)
+
     else:
         documentation_form = DocumentationForm()
         topic_form = TopicForm()
-    return render(request, 'doc/documentation_create.html', {
-        'documentation_form': documentation_form,
-        'topic_form': topic_form,
-        'collection': collection,
-    })
+
+    return render(
+        request,
+        'doc/documentation_create.html',
+        {
+            'documentation_form': documentation_form,
+            'topic_form': topic_form,
+            'collection': collection,
+        }
+    )
 
 def documentation_update(request, id):
-    documentation = get_object_or_404(Documentation, pk=id)
+    documentation = get_object_or_404(
+        Documentation,
+        pk=id
+    )
+
+    topic = documentation.topic
 
     if request.method == 'POST':
-        documentation_form = DocumentationForm(request.POST, instance=documentation)
-        topic_form = TopicForm(request.POST, instance=documentation.topic)
+        documentation_form = DocumentationForm(
+            request.POST,
+            instance=documentation
+        )
+
+        topic_form = TopicForm(
+            request.POST,
+            instance=topic
+        )
+
         if documentation_form.is_valid() and topic_form.is_valid():
-            topic = topic_form.save()
-            documentation = documentation_form.save(commit=False)
-            documentation.topic = topic
-            documentation.save()
-            return redirect('topic_detail', pk=topic.pk)
+            topic_form.save()
+            documentation_form.save()
+
+            return redirect(
+                'topic_detail',
+                pk=topic.pk
+            )
+
     else:
-        documentation_form = DocumentationForm(instance=documentation)
-        topic_form = TopicForm(instance=documentation.topic)
-    return render(request, 'doc/documentation_create.html', {
-        'documentation_form': documentation_form,
-        'topic_form': topic_form,
-        'update': True,
-    })
+        documentation_form = DocumentationForm(
+            instance=documentation
+        )
+
+        topic_form = TopicForm(
+            instance=topic
+        )
+
+    return render(
+        request,
+        'doc/documentation_create.html',
+        {
+            'documentation_form': documentation_form,
+            'topic_form': topic_form,
+            'update': True,
+            'collection': topic.collection,
+        }
+    )
