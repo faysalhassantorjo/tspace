@@ -20,7 +20,7 @@ from itertools import groupby
 def topic_detail(request, pk):
     topic = Topic.objects.get(pk=pk)
     collection = topic.collection
-    all_topics = collection.topics.all()  # already ordered by ['order', 'created_at']
+    all_topics = collection.topics.all().order_by('created_at')  # already ordered by ['order', 'created_at']
 
     # Group topics by their `group` field (None groups go under None)
     grouped_topics = []

@@ -520,7 +520,7 @@
     }
 
     .documentation-content .image img, .image_resized {
-        width: 100% !important;
+        width: 100% ;
         height: auto;
         display: block;
         border-radius: 4px;
@@ -540,11 +540,17 @@
     /* ── CODE BLOCKS ── */
     code {
         font-family: var(--font-mono);
-        background: var(--bg-secondary);
+        /* background: var(--bg-secondary); */
+        color: var(--text-primary);
         padding: 2px 6px;
         border-radius: 3px;
         font-size: 13px;
         border: 0.5px solid var(--border);
+    }
+
+    .hljs{
+        background: var(--bg-secondary) !important;
+        color: var(--text-primary) !important;
     }
 
     .code-wrapper {
@@ -732,7 +738,6 @@
             <li>
                 <a href="{% url 'topic_detail' t.id %}"
                     class="sidebar-nav-link {% if t.slug == topic.slug %}active{% endif %}">
-                    <span class="nav-num">{{ t.order|stringformat:"02d" }}</span>
                     <span>{{ t.title }}</span>
                 </a>
             </li>
@@ -760,7 +765,7 @@
             <div class="topic-meta">
                 <div class="topic-meta-left">
                     <div class="author-chip">
-                        <img src="{% static 'doc/images/dp.png' %}" alt="Author">
+                        <img src="{% static 'doc/images/dp-main.png' %}" alt="Author">
                         <span>faysal hassan torjo</span>
                     </div>
                     <span class="meta-tag">
